@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "ignoreDeprecations": "6.0",
+    "baseUrl": ".", 
+    "paths": {
+      "@/*": ["./src/*"],
+      "@components/*": ["./src/components/*"],
+      "@layout/*": ["./src/components/Layout/*"],
+      "@styles/*": ["./src/styles/*"],
+      "@db/*": ["./src/services/*"],
+      "@unit/*": ["./src/unitHelper/*"],
+      "@app/*": ["./src/app/*"]
+    },
+    "jsx": "preserve",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  },
+  "exclude": ["node_modules"]
+}
