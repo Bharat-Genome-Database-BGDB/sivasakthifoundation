@@ -1,0 +1,13 @@
+node_modules
+node_modules/*
+.next
+.next/*
+.next/trace/*
+.next/server/*
+.next/static/*
+.next/cache/*
+.next/types/*
+.next/app-build-manifest.json
+.next/server/app-paths-manifest.json
+.next/cache/webpack/client-development/0.pack.gz
+.next/cache/webpack/client-development/3.pack.gz
