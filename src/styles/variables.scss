@@ -1,0 +1,33 @@
+// 🎨 Sivasakthi Master Palette
+$primary-indigo: #1E1B4B;    // Deep Professional Indigo
+$electric-violet: #7C3AED;   // Technical Accent
+$muted-lavender: #F3F4F6;    // Soft Background Pastel
+$plum-academic: #4A1D96;     // Scholarly Deep Plum
+
+// 🖋 Typography Hierarchy
+// Inter for clean UI; Cormorant Garamond for prestigious headers
+$font-ui: 'Inter', sans-serif;
+$font-editorial: 'Cormorant Garamond', serif;
+
+// 📐 Structural Standards
+$border-radius-bento: 12px;  // Standard for rectangular bento cards
+$transition-smooth: 0.3s ease-in-out;
+
+:root {
+  /* ─── THEME CORE FROM FAQ.HTML ─── */
+  --plum:       #1a0530;
+  --deep:       #2b0a52;
+  --royal:      #4a1080;
+  --violet:     #7c3aed;
+  --lavender:   #a78bfa;
+  --lilac:      #c4b5fd;
+  --mist:       #ede9fe;
+  --white:      #ffffff;
+  --ink:        #1e0535;
+  --muted:      #6b5f80;
+  --soft-bg:    #faf8ff;
+  
+  /* Standardizing Fonts */
+  --font-main: 'DM Sans', sans-serif;
+  --font-serif: 'Cormorant Garamond', serif;
+}

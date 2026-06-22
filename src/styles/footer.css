@@ -1,0 +1,96 @@
+/* src/styles/footer.css */
+
+.site-footer {
+  background-color: #1a0530; /* The True Dark Plum Variable */
+  color: rgba(196, 181, 253, 0.7); /* Muted Lilac Text Fallback */
+  padding: 60px 24px 40px;
+  font-family: 'Inter', sans-serif;
+  width: 100%;
+  border-top: 1px solid rgba(167, 139, 250, 0.1);
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr repeat(2, 1fr);
+  gap: 40px;
+}
+
+/* Adjust grid allocation if the RBAC profile column is rendered active */
+.footer-inner:has(.member-gate-links) {
+  grid-template-columns: 2fr repeat(3, 1fr);
+}
+
+/* Brand column content definitions */
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-brand-title {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff; /* Bright White Accent */
+  margin: 0;
+}
+
+.footer-address {
+  font-style: normal;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(196, 181, 253, 0.65);
+}
+
+.footer-copyright {
+  font-size: 12px;
+  color: rgba(196, 181, 253, 0.5);
+  margin-top: 8px;
+}
+
+/* Hyperlinks and headers column blocks layout */
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-links h4 {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #a78bfa; /* Vibrant Lilac Header */
+  margin: 0 0 4px 0;
+  letter-spacing: 0.12em;
+}
+
+.footer-links a {
+  display: block;
+  color: rgba(196, 181, 253, 0.65);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: #ffffff;
+  transform: translateX(2px); /* Subtle glide link transition */
+}
+
+/* Responsive breakdowns for mobile views */
+@media (max-width: 768px) {
+  .footer-inner,
+  .footer-inner:has(.member-gate-links) {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  
+  .footer-brand {
+    border-bottom: 1px solid rgba(167, 139, 250, 0.1);
+    padding-bottom: 24px;
+  }
+}

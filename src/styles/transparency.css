@@ -1,0 +1,74 @@
+/* src/styles/transparency.css */
+
+.transparency-container {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 60px 24px 100px;
+  font-family: var(--font-sans);
+}
+
+.transparency-hero {
+  margin-bottom: 50px;
+}
+
+.transparency-section {
+  background: #ffffff;
+  border: 1px solid var(--bg-border);
+  padding: 36px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(26, 5, 48, 0.01);
+  margin-bottom: 32px;
+}
+
+.transparency-section h2 {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  color: var(--ink-primary);
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--bg-border);
+  padding-bottom: 8px;
+}
+
+.transparency-section p {
+  font-size: 15px;
+  line-height: 1.75;
+  color: #374151;
+  margin-bottom: 16px;
+}
+
+/* Legal Registry Data Grid */
+.registry-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.registry-item {
+  background: #fafafa;
+  padding: 16px 20px;
+  border-radius: 8px;
+  border-left: 3px solid var(--brand-violet);
+}
+
+.registry-item strong {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--brand-violet);
+  margin-bottom: 4px;
+}
+
+.registry-item span {
+  font-size: 15px;
+  font-family: monospace;
+  color: var(--ink-primary);
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .registry-grid {
+    grid-template-columns: 1fr;
+  }
+}
