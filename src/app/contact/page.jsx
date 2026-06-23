@@ -16,7 +16,6 @@ export default function ContactPage() {
     setFormStatus("submitting");
     setErrorMessage("");
 
-    // 1. Gather the exact 4 fields supported by both Web3Forms and our DB
     const formData = new FormData(e.target);
     const name = formData.get("name");
     const email = formData.get("email");
@@ -32,46 +31,44 @@ export default function ContactPage() {
     web3FormData.append("message", message);
 
     try {
-      // 🚀 THE PARALLEL PIPELINE: Send identical data fields to both targets
-      const [web3Response, supabaseResult] = await Promise.all([
-        
-        // Target A: Web3Forms Email Dispatch
-        fetch("https://api.web3forms.com/submit", {
-          method: "POST",
-          body: web3FormData
-        }),
+      // 🛑 PHASE 1: Try Web3Forms on its own first
+      console.log("Attempting Web3Forms submission...");
+      const web3Response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: web3FormData
+      });
 
-        // Target B: Supabase Dashboard Registry
-        supabase
-          .from("contact_submissions")
-          .insert([
-            {
-              org_slug: "sivasakthifoundation",
-              name: name,
-              email: email,
-              subject: subject,
-              message: message
-            }
-          ])
-      ]);
-
-      // 2. Validate Web3Forms Response
       const web3Data = await web3Response.json();
+      console.log("Web3Forms Raw Response:", web3Data);
+
       if (!web3Response.ok || web3Data.success === false) {
-        throw new Error(web3Data.message || "Web3Forms email relay failed.");
+        throw new Error(`Web3Forms Rejected: ${web3Data.message || 'Unknown Error'}`);
       }
 
-      // 3. Validate Supabase Response
-      if (supabaseResult.error) {
-        throw new Error(supabaseResult.error.message);
+      // 🛑 PHASE 2: Try Supabase on its own second
+      console.log("Web3Forms succeeded! Now attempting Supabase database insert...");
+      const { error: supabaseError } = await supabase
+        .from("contact_submissions")
+        .insert([
+          {
+            org_slug: "sivasakthifoundation",
+            name: name,
+            email: email,
+            subject: subject,
+            message: message
+          }
+        ]);
+
+      if (supabaseError) {
+        throw new Error(`Supabase Database Error: ${supabaseError.message}`);
       }
 
-      // Clearout and Success milestone!
+      // Both passed their individual validations perfectly!
       setFormStatus("success");
       e.target.reset();
 
     } catch (error) {
-      console.error("Submission Error:", error);
+      console.error("Caught Submission Error Detail:", error);
       setFormStatus("error");
       setErrorMessage(error.message || "Something went wrong. Please try again.");
     }
