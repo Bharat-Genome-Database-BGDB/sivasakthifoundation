@@ -1,24 +1,23 @@
 /* src/styles/header.css */
 
-/* Global Brand Font Imports safely mapped for internal cascade */
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap');
 
+/* --- 1. Global Shell --- */
 .site-header {
   width: 100%;
-  display: flex;
-  flex-direction: column;
   position: relative;
   z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   font-family: 'Inter', sans-serif;
   background-color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-/* 1. Top Bar Row Architecture */
+/* --- 2. Top Ecosystem Bar (The Plum Top Bar) --- */
 .top-bar {
-  background-color: #2e1065; /* Dark Plum Identity */
+  background-color: #2e1065;
+  /* Dark Plum Identity */
   padding: 8px 24px;
-  color: #f3e8ff; /* Soft Lilac */
+  color: #f3e8ff;
   font-size: 13px;
   font-weight: 500;
 }
@@ -31,10 +30,31 @@
   align-items: center;
 }
 
-.top-info-item {
+.top-bar-ecosystem {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 16px;
+}
+
+.nav-wrapper-item {
+  display: flex;
+  align-items: center;
+}
+
+.nav-item-link {
+  color: #f3e8ff;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.nav-item-link:hover {
+  opacity: 0.8;
+}
+
+.separator {
+  color: #a78bfa;
+  margin: 0 10px;
+  font-size: 20px;
 }
 
 .top-bar-socials {
@@ -49,15 +69,27 @@
   font-size: 14px;
 }
 
-.social-link:hover {
-  color: #c084fc; /* Electric Violet accent */
+.nav-wrapper-item {
+  color: #f3e8ff;
+  transition: color 0.2s ease;
+  font-size: 12px;
+  font-style: bold;
 }
 
-/* 2. Main Navigation Tier Layer */
+.social-link:hover {
+  color: #ffffff;
+  font-size: 20px;
+}
+
+.nav-wrapper-item:hover {
+  color: #ffffff;
+  font-size: 16px;
+}
+
+/* --- 3. Main Navigation Shell --- */
 .main-nav-container {
   padding: 12px 24px;
   background-color: #ffffff;
-  border-bottom: 1px solid #f3f4f6;
 }
 
 .nav-wrapper {
@@ -68,7 +100,7 @@
   align-items: center;
 }
 
-/* Branding Presentation Styles */
+/* Branding */
 .header__brand {
   display: flex;
   align-items: center;
@@ -79,22 +111,14 @@
 .brand-logo {
   height: 48px;
   width: auto;
-  display: block;
-  object-fit: contain;
-}
-
-.brand-text {
-  display: flex;
-  flex-direction: column;
 }
 
 .brand-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: 22px;
   font-weight: 700;
-  color: #1e0535; /* Crisp Dark Ink */
+  color: #1e0535;
   margin: 0;
-  line-height: 1.2;
 }
 
 .brand-tagline {
@@ -105,7 +129,7 @@
   letter-spacing: 0.5px;
 }
 
-/* Navigation List Stack Styles */
+/* Navigation */
 .nav-list {
   display: flex;
   align-items: center;
@@ -113,10 +137,6 @@
   list-style: none;
   margin: 0;
   padding: 0;
-}
-
-.nav-item {
-  position: relative;
 }
 
 .nav-link-item {
@@ -128,61 +148,50 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  transition: color 0.2s ease;
 }
 
 .nav-link-item:hover,
 .nav-link-item.active {
-  color: #7c3aed; /* Electric Violet Brand Anchor */
+  color: #7c3aed;
 }
 
-.dropdown-arrow {
-  font-size: 10px;
-  transition: transform 0.2s ease;
+/* Dropdown */
+.nav-item {
+  position: relative;
 }
 
-/* 3. Dropdown Menu Sub-Tiers */
 .dropdown-menu {
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: #ffffff;
+  background: #fff;
   min-width: 220px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   border-radius: 6px;
   padding: 8px 0;
   list-style: none;
   margin-top: 8px;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(10px);
-  transition: all 0.2s ease;
+  display: none;
 }
 
-/* Show actions handled strictly via React hooks state updates */
 .dropdown-menu.show {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
+  display: block;
 }
 
 .dropdown-link-item {
   display: block;
   padding: 10px 20px;
   font-size: 14px;
-  font-weight: 500;
   color: #4b5563;
   text-decoration: none;
-  transition: all 0.2s ease;
 }
 
 .dropdown-link-item:hover {
-  background-color: #f3e8ff;
+  background: #f3e8ff;
   color: #7c3aed;
-  padding-left: 24px; /* Soft offset glide matching POT preference */
 }
 
-/* Dynamic Sign-In Call To Action Button Styles */
+/* CTA Button */
 .nav-signin-btn {
   background: linear-gradient(135deg, #4a1d96 0%, #7c3aed 100%);
   color: #ffffff;
@@ -191,50 +200,41 @@
   text-decoration: none;
   font-size: 14px;
   font-weight: 600;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  display: inline-block;
 }
 
 .nav-signin-btn:hover {
-  transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
 }
 
-/* 4. Responsive Handlers Mobile Fallbacks */
+/* Mobile Toggle */
 .mobile-nav-toggle {
   display: none;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 24px;
-  height: 18px;
-  background: transparent;
   border: none;
+  background: transparent;
   cursor: pointer;
-  padding: 0;
 }
 
 .hamburger-bar {
-  width: 100%;
+  width: 24px;
   height: 2px;
-  background-color: #1e0535;
-  transition: all 0.2s ease;
+  background: #1e0535;
+  margin: 4px 0;
 }
 
 @media (max-width: 992px) {
   .mobile-nav-toggle {
     display: flex;
+    flex-direction: column;
   }
 
   .nav-menu {
+    display: none;
     position: absolute;
     top: 100%;
     left: 0;
     width: 100%;
-    background-color: #ffffff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    border-top: 1px solid #f3f4f6;
-    padding: 16px 24px;
-    display: none;
+    background: white;
+    padding: 20px;
   }
 
   .nav-menu.open {
@@ -244,36 +244,5 @@
   .nav-list {
     flex-direction: column;
     align-items: flex-start;
-    gap: 16px;
-  }
-
-  .dropdown-menu {
-    position: static;
-    box-shadow: none;
-    padding: 4px 0 4px 16px;
-    display: none;
-    opacity: 1;
-    visibility: visible;
-    transform: none;
-    margin-top: 0;
-  }
-
-  .dropdown-menu.show {
-    display: block;
-  }
-
-  .nav-link-item {
-    width: 100%;
-    justify-content: space-between;
-  }
-  
-  .nav-cta-item {
-    width: 100%;
-    margin-top: 8px;
-  }
-
-  .nav-signin-btn {
-    width: 100%;
-    text-align: center;
   }
 }
