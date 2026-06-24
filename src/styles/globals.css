@@ -44,6 +44,10 @@ h1, h2, h3 {
 }
 
 .hero-main-title {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
   font-size: 42px;
   font-weight: 800;
   line-height: 1.2;

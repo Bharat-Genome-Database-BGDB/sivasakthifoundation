@@ -27,6 +27,7 @@ const Header = () => {
       dropdown: [
         { label: "Our Story", to: "/about/ourstory" },
         { label: "Board of Trustees", to: "/about/trustees" },
+        { label: "Partners & Collaborations", to: "/about/partners" },
         { label: "Financial Transparency", to: "/about/transparency" }
       ]
     },
@@ -124,7 +125,6 @@ const Header = () => {
                   )}
                 </li>
               ))}
-              <li className="nav-item"><Link href="/signin" className="nav-signin-btn">Sign In</Link></li>
             </ul>
           </nav>
         </div>

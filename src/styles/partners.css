@@ -1,0 +1,107 @@
+.partners-container {
+  max-width: 950px;
+  margin: 0 auto;
+  padding: 60px 24px 100px;
+  font-family: var(--font-sans);
+}
+
+.partners-hero {
+  margin-bottom: 50px;
+}
+
+.partners-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+  margin-top: 40px;
+}
+
+.partner-card {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1px solid var(--bg-border);
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(26, 5, 48, 0.01);
+  transition: border-color 0.2s ease;
+  text-align: center;
+  align-items: center;
+}
+
+.partner-card:hover {
+  border-color: var(--brand-violet);
+}
+
+.partner-logo-wrap {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.partner-logo-wrap img {
+  max-height: 100%;
+  max-width: 160px;
+  filter: grayscale(1);
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.partner-card:hover img {
+  filter: grayscale(0);
+  opacity: 1;
+}
+
+.partner-card h3 {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  color: var(--ink-primary);
+  margin: 0 0 12px 0;
+}
+
+.partner-card p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #374151;
+  margin: 0 0 24px 0;
+  flex-grow: 1;
+}
+
+/* Button Styles */
+.btn-solid {
+  display: inline-block;
+  padding: 10px 24px;
+  background: var(--brand-violet);
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 13px;
+  transition: transform 0.2s;
+}
+
+.btn-solid:hover {
+  transform: translateY(-2px);
+}
+
+/* CTA Footer (Consistent with Trustees) */
+.cta-box {
+  margin-top: 80px;
+  padding: 40px;
+  background: var(--soft-bg);
+  border-radius: 20px;
+  text-align: center;
+}
+
+.btn-cta {
+  display: inline-block;
+  background: var(--brand-violet);
+  color: white;
+  padding: 12px 28px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  margin-top: 20px;
+}

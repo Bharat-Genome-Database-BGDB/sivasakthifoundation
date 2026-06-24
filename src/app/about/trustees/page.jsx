@@ -8,9 +8,15 @@ export default function TrusteesPage() {
   const trustees = [
     {
       name: "Dr. Sabarinath Subramaniam",
-      role: "Managing Trustee",
+      role: "Chairperson",
       initials: "SS",
-      bio: "Dr. Sabarinath Subramaniam is a scientist specializing in Genomics, Bioinformatics, and Data Analytics. He holds a Ph.D. in Bioinformatics. With over 15 years of research experience, he is passionate about integrating genomics data with Deep Learning models to extract meaningful insights."
+      bio: "Dr. Subramaniam is a renowned scientist with over 30 years of experience in life sciences. As Chairperson of the Board, he provides strategic oversight and ensures that the foundation remains true to its mission. Dr. Subramaniam has previously served in leadership roles at Phoenix Bioinformatics, where he spearheaded several groundbreaking research initiatives."
+    },
+    {
+      name: "Dr. Rajkumari Kylas",
+      role: "Vice Chairperson",
+      initials: "RK",
+      bio: "Dr. Kylas is a leading expert in Microbiology, with an extensive background in both academia and industry. As Vice Chairperson, she supports the Chairperson in strategic planning and governance. Dr. Kylas is also a faculty member at a prestigious institution, where she focuses on advancing research in her specific area of expertise."
     },
     {
       name: "Mrs. Sridevi Balla",
@@ -18,12 +24,13 @@ export default function TrusteesPage() {
       initials: "SB",
       bio: "Mrs. Sridevi Balla is an IT professional with over 20 years of experience specializing in Quality Engineering and Product Management. She handles governance, structural delivery metrics, and platform roadmap integrity for the foundation's technological pipelines."
     }
+
   ];
 
   return (
     <Layout title="Board of Trustees | About" description="Meet the leadership guiding the Sivasakthi Science Foundation™ infrastructure.">
       <main className="trustees-container">
-        
+
         <header className="trustees-hero hero-identity-group">
           <h1 className="hero-main-title">Board of Trustees</h1>
           <p className="hero-sub-tagline">The leadership team guiding our scientific direction and organizational governance.</p>
@@ -32,7 +39,7 @@ export default function TrusteesPage() {
         <section className="trustees-grid">
           {trustees.map((member, idx) => (
             <div key={idx} className="profile-card">
-              
+
               {/* Initial-based placeholder avatar */}
               <div className="profile-avatar-fallback">
                 {member.initials}
@@ -46,6 +53,19 @@ export default function TrusteesPage() {
 
             </div>
           ))}
+        </section>
+        {/* New Closing Statement Section */}
+        <section className="trustees-footer-note">
+          <p>
+            Our Board of Trustees is committed to advancing the foundation’s mission and ensuring that our
+            programs and initiatives have a lasting impact on the scientific community and society.
+            Each trustee brings a unique perspective and set of skills, making our board a dynamic and
+            effective governing body.
+          </p>
+          <p>
+            We are grateful for their dedication and leadership, and we look forward to continuing our
+            journey under their guidance.
+          </p>
         </section>
 
       </main>
