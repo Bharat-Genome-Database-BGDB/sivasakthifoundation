@@ -1,0 +1,56 @@
+/* src/styles/components/buttons.css */
+
+/* Base reset for all button-like elements */
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--transition-smooth), background 0.2s;
+  text-align: center;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Variation 1: Solid Primary (The "Action" Button) */
+.btn-solid {
+  background: var(--brand-primary);
+  color: var(--color-white);
+  border: none;
+}
+
+.btn-solid:hover {
+  background: var(--color-deep);
+}
+
+/* Variation 2: Outline (The "Secondary" or "View More" Button) */
+.btn-outline {
+  background: transparent;
+  color: var(--brand-primary);
+  border: 1px solid var(--brand-primary);
+}
+
+.btn-outline:hover {
+  background: var(--color-mist);
+}
+
+/* Variation 3: CTA (The Big "Hero" or "Footer" Button) */
+.btn-cta {
+  background: var(--brand-accent);
+  color: var(--color-white);
+  padding: 14px 34px;
+  border-radius: 12px;
+  font-size: 16px;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.btn-cta:hover {
+  background: var(--color-royal);
+  box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+}

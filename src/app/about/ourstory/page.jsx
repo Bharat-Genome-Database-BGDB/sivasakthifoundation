@@ -1,22 +1,20 @@
-// src/app/about/ourstory/page.jsx
 'use client';
 import Layout from "@layout/Layout";
-import "@styles/ourstory.css";
+import "@styles/main.css";
 
 export default function OurStoryPage() {
   return (
     <Layout title="Our Story | About" description="The journey, mission, and vision of Sivasakthi Science Foundation™">
-      <main className="story-container">
+      <main className="container">
         
-        {/* Hero Identity Block */}
-        <header className="story-hero-section hero-identity-group">
-          <h1 className="hero-main-title">Our Story & History</h1>
-          <p className="hero-sub-tagline">Tracing our foundational journey, core values, and scientific trajectory.</p>
+        {/* Editorial Layout: Center-aligned narrative block */}
+        <header className="hero-section">
+          <h1 className="hero-title">Our Story & History</h1>
+          <p className="hero-tagline">Tracing our foundational journey, core values, and scientific trajectory.</p>
         </header>
 
         <article className="story-narrative">
-          
-          {/* Section 1: About Us / Background */}
+          {/* Main Story Content */}
           <section className="story-block">
             <h2>Who We Are</h2>
             <p>
@@ -27,32 +25,21 @@ export default function OurStoryPage() {
             </p>
           </section>
 
-          {/* Section 2: Mission & Vision Grid */}
-          <section className="story-block">
-            <h2>Mission & Vision</h2>
+          {/* New Callout Style: Integrated Focus Block */}
+          <section className="story-callout">
+            <h3>Our Scientific Vision</h3>
             <p>
-              Our operations are bound to a strict scientific manifesto: moving beyond simple metrics or raw data collection, and starting to drive deep, strategic healthcare value through technology.
+              To solve complex biological questions while prioritizing exploratory human assessment and transparency.
             </p>
-            
-            <div className="story-callout-grid">
-              <div className="story-card">
-                <h3>Our Mission</h3>
-                <p style={{ fontSize: '14px', lineHeight: '1.6' }}>
-                  To bridge high-throughput genomics with computational deep learning tools to solve complex biological questions while prioritizing exploratory human assessment and transparency.
-                </p>
-              </div>
-              <div className="story-card">
-                <h3>Core Directives</h3>
-                <ul>
-                  <li>Open-access infrastructure deployment.</li>
-                  <li>Sustaining independent research funding.</li>
-                  <li>Fostering specialized training and internships.</li>
-                </ul>
-              </div>
-            </div>
+            <h3>Core Directives</h3>
+            <ul>
+              <li>Open-access infrastructure deployment.</li>
+              <li>Sustaining independent research funding.</li>
+              <li>Fostering specialized training and internships.</li>
+            </ul>
           </section>
 
-          {/* Section 3: History Chronology */}
+          {/* History Chronology */}
           <section className="story-block">
             <h2>Continuing the Legacy</h2>
             <p>
@@ -62,7 +49,6 @@ export default function OurStoryPage() {
               Today, our core initiatives have matured into complex bioinformatics programs, genomics resource hosting, and open-source validation models. From those local scholarship roots to our present-day multi-vertical platform pipelines, our core mission remains entirely fixed: ensuring the structural scientists of tomorrow are fully equipped for the data challenges of today.
             </p>
           </section>
-
         </article>
       </main>
     </Layout>

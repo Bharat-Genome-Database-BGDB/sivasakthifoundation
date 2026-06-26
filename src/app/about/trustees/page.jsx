@@ -2,7 +2,7 @@
 'use client';
 
 import Layout from "@layout/Layout";
-import "@styles/trustees.css";
+import "@styles/main.css";
 
 export default function TrusteesPage() {
   const trustees = [
@@ -36,42 +36,38 @@ export default function TrusteesPage() {
   ];
 
   return (
-    <Layout title="Board of Trustees | About" description="Meet the leadership guiding the Sivasakthi Science Foundation™ infrastructure.">
-      <main className="trustees-container">
+    <Layout title="Board of Trustees | About" description="...">
+      <main className="container"> {/* Using global spacing utility */}
 
-        <header className="trustees-hero hero-identity-group">
-          <h1 className="hero-main-title">Board of Trustees</h1>
-          <p className="hero-sub-tagline">The leadership team guiding our scientific direction and organizational governance.</p>
+        <header className="hero mb-lg">
+          <h1 className="hero-title">Board of Trustees</h1>
+          <p className="hero-tagline">The leadership team guiding our scientific direction.</p>
         </header>
 
-        <section className="trustees-grid">
+        {/* Using the updated 'card' and 'card-horizontal' modifier */}
+        <section className="grid grid-cols-1 gap-lg">
           {trustees.map((member, idx) => (
-            <div key={idx} className="profile-card">
-
-              {/* Initial-based placeholder avatar */}
-              <div className="profile-avatar-fallback">
+            <div key={idx} className="card card-horizontal">
+              {/* Avatar remains distinct */}
+              <div className="initials-box">
                 {member.initials}
               </div>
 
+              {/* Bio and Info block */}
               <div className="profile-info">
-                <h2>{member.name}</h2>
-                <div className="profile-role">{member.role}</div>
-                <p className="profile-bio">{member.bio}</p>
+                <h2 className="card-title">{member.name}</h2>
+                <div className="card-subtitle">{member.role}</div>
+                <p className="card-body">{member.bio}</p>
               </div>
-
             </div>
           ))}
         </section>
-        {/* New Closing Statement Section */}
-        <section className="trustees-footer-note">
-          <p>
-            Our Board of Trustees serves as the cornerstone of the Sivasakthi Science Foundation, driving our mission to cultivate transformative scientific advancement.
-            By leveraging a diverse synthesis of expertise and insight, our trustees foster a dynamic governance framework dedicated to ensuring our initiatives yield a profound, lasting impact on both the scientific community and society at large.
-          </p>
-          <p>
-            We are deeply honored by their steadfast leadership and remain committed to charting the future of scientific discovery under their guidance.
-          </p>
-        </section>
+
+        <footer className="footer-note">
+          <p>Our Board of Trustees serves as the cornerstone of the Sivasakthi Science Foundation, driving our mission to cultivate transformative scientific advancement. By leveraging a diverse synthesis of expertise and insight, our trustees foster a dynamic governance framework dedicated to ensuring our initiatives yield a profound, lasting impact on both the scientific community and society at large.
+
+            We are deeply honored by their steadfast leadership and remain committed to charting the future of scientific discovery under their guidance.</p>
+        </footer>
 
       </main>
     </Layout>

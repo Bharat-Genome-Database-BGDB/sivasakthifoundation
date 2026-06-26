@@ -1,0 +1,30 @@
+/* src/styles/components/hero.css */
+
+.hero {
+  padding: 80px 24px;
+  text-align: center;
+  background: var(--bg-main);
+  /* Optional: border-bottom: 1px solid var(--border-default); */
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 5vw, 3.5rem); /* Responsive sizing */
+  color: var(--text-heading);
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.hero-tagline {
+  font-size: 1.1rem;
+  color: var(--text-main);
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+

@@ -20,7 +20,6 @@ const Header = () => {
 
   // --- Master Navigation Configuration ---
   const navLinks = [
-    { label: "Home", to: "/" },
     {
       label: "About Us",
       to: "#",

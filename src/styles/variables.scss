@@ -1,33 +1,36 @@
-// 🎨 Sivasakthi Master Palette
-$primary-indigo: #1E1B4B;    // Deep Professional Indigo
-$electric-violet: #7C3AED;   // Technical Accent
-$muted-lavender: #F3F4F6;    // Soft Background Pastel
-$plum-academic: #4A1D96;     // Scholarly Deep Plum
-
-// 🖋 Typography Hierarchy
-// Inter for clean UI; Cormorant Garamond for prestigious headers
-$font-ui: 'Inter', sans-serif;
-$font-editorial: 'Cormorant Garamond', serif;
-
-// 📐 Structural Standards
-$border-radius-bento: 12px;  // Standard for rectangular bento cards
-$transition-smooth: 0.3s ease-in-out;
+/* Sivasakthi Master Design Tokens
+  Everything in the project should reference these variables. 
+*/
 
 :root {
-  /* ─── THEME CORE FROM FAQ.HTML ─── */
-  --plum:       #1a0530;
-  --deep:       #2b0a52;
-  --royal:      #4a1080;
-  --violet:     #7c3aed;
-  --lavender:   #a78bfa;
-  --lilac:      #c4b5fd;
-  --mist:       #ede9fe;
-  --white:      #ffffff;
-  --ink:        #1e0535;
-  --muted:      #6b5f80;
-  --soft-bg:    #faf8ff;
-  
-  /* Standardizing Fonts */
-  --font-main: 'DM Sans', sans-serif;
-  --font-serif: 'Cormorant Garamond', serif;
+  /* 1. Core Brand Palette (The "Source of Truth") */
+  --color-plum:       #1a0530; /* Primary Dark */
+  --color-deep:       #2b0a52;
+  --color-royal:      #4a1080; /* Scholarly Plum */
+  --color-violet:     #7c3aed; /* Electric Violet Accent */
+  --color-lavender:   #a78bfa;
+  --color-lilac:      #c4b5fd;
+  --color-mist:       #ede9fe; /* Soft Background Accent */
+  --color-white:      #ffffff;
+  --color-ink:        #1e0535; /* Primary Text */
+  --color-muted:      #6b5f80;
+  --color-soft-bg:    #faf8ff;
+
+  /* 2. Semantic Aliases (Helps with future theme changes) */
+  --brand-primary:    var(--color-royal);
+  --brand-accent:     var(--color-violet);
+  --bg-main:          var(--color-white);
+  --bg-section:       var(--color-soft-bg);
+  --text-main:        #374151; /* Dark Gray for better reading than pure ink */
+  --text-heading:     var(--color-plum);
+  --border-default:   var(--color-mist);
+
+  /* 3. Typography Hierarchy */
+  --font-sans:        'Inter', system-ui, -apple-system, sans-serif;
+  --font-serif:       'Cormorant Garamond', Georgia, serif;
+
+  /* 4. Structural Standards */
+  --border-radius-bento: 16px;
+  --transition-smooth:   0.3s ease-in-out;
+  --max-content-width:   1000px;
 }

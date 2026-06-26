@@ -1,9 +1,10 @@
 // src/app/faq/page.jsx
 'use client';
 import Layout from "@layout/Layout";
-import "@styles/faq.css";
+import "@styles/main.css";
 
 export default function FaqPage() {
+
   const faqData = [
     {
       q: "What is Sivasakthi Science Foundation?",
@@ -32,23 +33,22 @@ export default function FaqPage() {
   ];
 
   return (
-    <Layout title="FAQ" description="Frequently Asked Questions — Sivasakthi Science Foundation™">
-      <main className="faq-page-wrapper">
-        
-        <header className="hero-identity-group">
-          <h1 className="hero-main-title">Frequently Asked Questions</h1>
-          <p className="hero-sub-tagline">Learn more about our mission, focus areas, and collaboration models.</p>
+    <Layout title="FAQ" description="Frequently Asked Questions">
+      <main className="container py-xl">
+        <header className="hero mb-lg">
+          <h1 className="hero-title">Frequently Asked Questions</h1>
+          <p className="hero-tagline">Learn more about our mission and focus areas.</p>
         </header>
 
-        <section className="faq-container">
+        {/* Clean, static grid of cards */}
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-lg">
           {faqData.map((item, idx) => (
-            <div key={idx} className="faq-block">
-              <h2 className="faq-heading">{item.q}</h2>
-              <p className="faq-answer">{item.a}</p>
+            <div key={idx} className="card faq-card p-xl">
+              <h3 className="card-title text-xl">{item.q}</h3>
+              <p className="card-body text-ink-secondary">{item.a}</p>
             </div>
           ))}
         </section>
-
       </main>
     </Layout>
   );

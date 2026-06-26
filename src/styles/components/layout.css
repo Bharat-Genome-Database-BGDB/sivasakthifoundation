@@ -1,0 +1,76 @@
+/* src/styles/components/layout.css */
+
+/* 1. The Container: Keeps everything centered and constrained */
+.container {
+    max-width: var(--max-content-width);
+    /* Defined in variables.css */
+    margin: 0 auto;
+    padding: 0 24px;
+    padding-bottom: 100px;
+
+}
+
+/* 2. The Hero: Reusable spacing for top sections */
+.hero-section {
+    padding: 80px 0;
+    text-align: center;
+}
+
+/* 3. The Responsive Grid: The "engine" for your cards */
+.grid {
+    display: grid;
+    gap: 32px;
+    grid-template-columns: 1fr;
+    /* Default mobile 1 column */
+}
+
+/* Page-specific overrides for the partners section */
+.partners-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    margin-top: 40px;
+}
+
+
+.grid > * {
+    min-width: 0; 
+}
+
+
+
+.mission-summary {
+  max-width: 800px;
+  margin: 60px auto;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.verticals-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.story-narrative {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.story-callout {
+  background: var(--color-mist);
+  padding: 32px;
+  border-radius: var(--border-radius-bento);
+  border-left: 4px solid var(--brand-accent);
+}
+
+@media (min-width: 768px) {
+    .grid-2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid-3 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
