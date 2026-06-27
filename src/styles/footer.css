@@ -2,7 +2,7 @@
 
 /* --- 1. Shell --- */
 .site-footer {
-  background-color: var(--color-plum); /* Reference: --color-plum (#1a0530) */
+  background-color: var(--brand-plum); 
   border-top: 1px solid rgba(167, 139, 250, 0.1);
   color: var(--ink-muted);
   font-family: var(--font-sans);
