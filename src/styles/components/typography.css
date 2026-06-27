@@ -1,79 +1,57 @@
-/* src/styles/components/typography.css */
 
-/* 1. Base Body Text */
+/* --- 1. Base Body Text --- */
 body {
-    font-family: var(--font-sans);
-    color: var(--text-main);
-    line-height: 1.6;
-    font-size: 16px;
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
 }
 
-/* 2. Headings (Using the Elegant Serif) */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-family: var(--font-serif);
-    color: var(--text-heading);
-    line-height: 1.2;
-    margin: 0 0 1rem 0;
-    font-weight: 600;
+/* --- 2. Headings (Serif Elegance) --- */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-heading);
+  font-family: var(--font-serif);
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0 0 1rem 0;
 }
 
-h1 {
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
-}
+h1 { font-size: clamp(2.5rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(2rem, 4vw, 2.5rem); }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
 
-h2 {
-    font-size: clamp(2rem, 4vw, 2.5rem);
-}
-
-h3 {
-    font-size: 1.5rem;
-}
-
-h4 {
-    font-size: 1.25rem;
-}
-
-/* 3. Helper Classes (For when you need text that doesn't match the tag) */
-.text-small {
-    font-size: 0.875rem;
-    color: var(--color-muted);
-}
-
-.text-bold {
-    font-weight: 700;
-}
-
-/* 4. Link Styling */
+/* --- 3. Link Styling --- */
 a {
-    color: var(--brand-accent);
-    text-decoration: none;
-    transition: opacity 0.2s;
+  color: var(--brand-accent);
+  text-decoration: none;
+  transition: opacity 0.2s;
 }
 
 a:hover {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
-/* 5. List Styling */
-ul,
-ol {
-    margin-bottom: 1.5rem;
-    padding-left: 1.5rem;
-}
-
+/* --- 4. List Styling --- */
 li {
-    margin-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
-.faq-block button:hover {
-    color: var(--brand-violet);
+ul, ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+/* --- 5. Helper Classes --- */
+.text-bold {
+  font-weight: 700;
 }
 
 .text-ink-secondary {
-    color: #4b5563;
+  color: var(--ink-secondary);
+}
+
+.text-small {
+  color: var(--color-muted);
+  font-size: 0.875rem;
 }

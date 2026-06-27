@@ -1,46 +1,57 @@
 /* --- 1. Core Card Component --- */
 .card {
-  background: var(--color-white, #ffffff);
-  border: 1px solid var(--border-default, #e5e7eb);
-  padding: 32px;
-  border-radius: var(--border-radius-bento, 16px);
+  background: var(--color-white);
+  border-left: 4px solid var(--brand-violet);
+  border: 1px solid var(--brand-violet);
   box-shadow: 0 4px 20px rgba(26, 5, 48, 0.01);
   display: flex;
   flex-direction: column;
   height: 100%;
+  padding: 32px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card:hover {
-  border-color: var(--brand-violet);
+  border: 2px solid var(--brand-violet);
   transform: translateY(-4px);
 }
 
-/* Card Content Helpers */
-.card-title {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
-  color: var(--ink-primary);
-  margin-bottom: 0.75rem;
+/* Card Typography Helpers */
+.card-body {
+  color: var(--text-main);
+  flex-grow: 1;
+  font-size: 0.95rem;
+  line-height: 1.7;
 }
 
 .card-subtitle {
+  color: var(--brand-violet);
   font-size: 0.8rem;
   font-weight: 700;
-  text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--brand-violet);
   margin-bottom: 1rem;
+  text-transform: uppercase;
 }
 
-.card-body {
-  font-size: 0.95rem;
-  line-height: 1.7;
-  color: #374151;
-  flex-grow: 1;
+.card-title {
+  color: var(--ink-primary);
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
 }
 
-/* --- 2. Layout Modifiers --- */
+/* --- 2. Layout & Feature Modifiers --- */
+.badge {
+  background: #f5f3ff;
+  border-radius: 20px;
+  color: var(--brand-violet);
+  display: inline-block;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 6px 12px;
+  text-transform: uppercase;
+}
+
 .card-horizontal {
   flex-direction: column;
   gap: 24px;
@@ -54,127 +65,49 @@
   }
 }
 
-/* --- 3. Feature Components --- */
-.badge {
-  display: inline-block;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--brand-violet);
-  background: #f5f3ff;
-  padding: 6px 12px;
-  border-radius: 20px;
-}
-
 .card-icon, .icon-box {
-  width: 50px;
-  height: 50px;
-  display: flex;
   align-items: center;
+  background: #f5f3ff;
+  border-radius: 12px;
+  color: var(--brand-violet);
+  display: flex;
+  font-size: 20px;
+  height: 50px;
   justify-content: center;
   margin-bottom: 20px;
-  background: #f5f3ff;
-  color: var(--brand-violet);
-  border-radius: 12px;
-  font-size: 20px;
+  width: 50px;
 }
 
 .card-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 12px 24px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   list-style: none;
   margin-top: 16px;
   padding: 0;
 }
 
 .card-list li {
-  font-size: 0.95rem;
-  color: #374151;
-  display: flex;
   align-items: center;
+  color: var(--text-main);
+  display: flex;
+  font-size: 0.95rem;
   gap: 8px;
 }
 
-/* --- 4. Page-Specific Components --- */
+/* --- 3. Page-Specific Components --- */
 
-/* FAQ */
-.faq-card {
-  cursor: default;
-  border-left: 4px solid var(--brand-violet);
-}
-
-.faq-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 10px 30px rgba(26, 5, 48, 0.08);
-  z-index: 10;
-}
-
-/* Partners */
-.card-logo-wrap {
-  width: 100%;
-  height: 120px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 24px;
-  background: #f9fafb;
-  border-radius: 12px;
-  border: 1px solid var(--bg-border);
-  overflow: hidden;
-}
-
-.card-logo-wrap img {
-  max-width: 70%;
-  max-height: 70%;
-  object-fit: contain;
-}
-
-/* Transparency */
-.registry-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-top: 24px;
-}
-
-.registry-item {
-  background: var(--color-mist);
-  padding: 16px 20px;
-  border-radius: 8px;
-  border-left: 3px solid var(--brand-violet);
-}
-
-/* Trustees */
-.initials-box {
-  width: 90px;
-  height: 90px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
-  color: var(--brand-violet);
-  font-family: var(--font-serif);
-  font-size: 32px;
-  font-weight: 700;
-  border: 3px solid #ffffff;
-  box-shadow: 0 4px 10px rgba(139, 92, 246, 0.15);
-}
-
-/* Contact */
+/* Contact Page Layout */
 .contact-grid-layout {
   display: grid;
-  grid-template-columns: 1fr;
   gap: 32px;
+  grid-template-columns: 1fr;
 }
 
 @media (min-width: 1024px) {
   .contact-grid-layout {
-    /* Changed from 350px 1fr to equal split */
-    grid-template-columns: 1fr 1fr; 
     gap: 48px;
+    grid-template-columns: 1fr 1fr;
   }
 }
 
@@ -183,23 +116,85 @@
   border: none;
 }
 
-/* --- 5. Compound Component Classes (The "Shortcut" Classes) --- */
+/* FAQ Page */
+.faq-card {
+  border-left: 4px solid var(--brand-violet);
+  cursor: default;
+}
 
-/* Used for content sections that need a top-brand accent line */
+.faq-card:hover {
+  box-shadow: 0 10px 30px rgba(26, 5, 48, 0.08);
+  transform: scale(1.25);
+  z-index: 10;
+}
+
+/* Partners Page */
+.card-logo-wrap {
+  align-items: center;
+  background: #f9fafb;
+  border: 1px solid var(--bg-border);
+  border-radius: 12px;
+  display: flex;
+  height: 120px;
+  justify-content: center;
+  margin-bottom: 24px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.card-logo-wrap img {
+  max-height: 70%;
+  max-width: 70%;
+  object-fit: contain;
+}
+
+/* Transparency Page */
+.registry-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 24px;
+}
+
+.registry-item {
+  background: var(--color-mist);
+  border-left: 3px solid var(--brand-violet);
+  border-radius: 8px;
+  padding: 16px 20px;
+}
+
+/* Trustees Page */
+.initials-box {
+  align-items: center;
+  background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(139, 92, 246, 0.15);
+  color: var(--brand-violet);
+  display: flex;
+  font-family: var(--font-serif);
+  font-size: 32px;
+  font-weight: 700;
+  flex-shrink: 0;
+  height: 90px;
+  justify-content: center;
+  width: 90px;
+}
+
+/* --- 4. Compound Shortcuts --- */
 .card-section-featured {
   background: var(--color-white);
   border: 1px solid var(--bg-border);
-  border-top: 4px solid var(--brand-violet); /* Centralized top brand border */
-  padding: 48px; /* Standardized p-xl */
   border-radius: 16px;
-  margin-bottom: 32px; /* Standardized mb-lg */
+  border-top: 4px solid var(--brand-violet);
   box-shadow: 0 4px 20px rgba(26, 5, 48, 0.01);
+  margin-bottom: 32px;
+  padding: 48px;
 }
 
-/* Used for dense info sections (like Transparency or Contact Sidebar) */
 .card-info-box {
   background: var(--color-mist);
-  padding: 32px;
-  border-radius: 12px;
   border: none;
+  border-radius: 12px;
+  padding: 32px;
 }
