@@ -1,36 +1,41 @@
-/* Sivasakthi Master Design Tokens
-  Everything in the project should reference these variables. 
-*/
-
+/* src/styles/variables.scss */
 :root {
-  /* 1. Core Brand Palette (The "Source of Truth") */
-  --color-plum:       #1a0530; /* Primary Dark */
-  --color-deep:       #2b0a52;
-  --color-royal:      #4a1080; /* Scholarly Plum */
-  --color-violet:     #7c3aed; /* Electric Violet Accent */
-  --color-lavender:   #a78bfa;
-  --color-lilac:      #c4b5fd;
-  --color-mist:       #ede9fe; /* Soft Background Accent */
-  --color-white:      #ffffff;
-  --color-ink:        #1e0535; /* Primary Text */
-  --color-muted:      #6b5f80;
-  --color-soft-bg:    #faf8ff;
-
-  /* 2. Semantic Aliases (Helps with future theme changes) */
-  --brand-primary:    var(--color-royal);
-  --brand-accent:     var(--color-violet);
-  --bg-main:          var(--color-white);
-  --bg-section:       var(--color-soft-bg);
-  --text-main:        #374151; /* Dark Gray for better reading than pure ink */
-  --text-heading:     var(--color-plum);
-  --border-default:   var(--color-mist);
-
-  /* 3. Typography Hierarchy */
-  --font-sans:        'Inter', system-ui, -apple-system, sans-serif;
-  --font-serif:       'Cormorant Garamond', Georgia, serif;
-
-  /* 4. Structural Standards */
-  --border-radius-bento: 16px;
-  --transition-smooth:   0.3s ease-in-out;
-  --max-content-width:   1000px;
+  /* --- Colors (Alphabetical) --- */
+  --brand-accent:           #7c3aed;
+  --brand-lilac:            #c4b5fd;
+  --brand-plum:             #1a0530;
+  --brand-plum-mid:         #2e1065;
+  --brand-royal:            #4a1080;
+  --brand-violet:           #7c3aed;
+  --brand-violet-hover:     #4a1d96;
+  
+  --color-lavender:         #a78bfa;
+  --color-mist:             #ede9fe;
+  --color-muted:            #6b5f80;
+  --color-soft-bg:          #faf8ff;
+  --color-white:            #ffffff;
+  
+  /* --- Semantic Aliases --- */
+  --bg-border:              #f3f4f6;
+  --bg-canvas:              #ffffff;
+  --bg-main:                #ffffff;
+  --bg-section:             #faf8ff;
+  
+  --ink-muted:              rgba(196, 181, 253, 0.65);
+  --ink-primary:            #1e0535;
+  --ink-secondary:          #4b5563;
+  
+  --text-heading:           var(--brand-plum);
+  --text-main:              #374151;
+  
+  /* --- Layout & Spacing --- */
+  --border-radius-bento:    16px;
+  --max-content-width:      1000px;
+  --space-lg:               32px;
+  --space-md:               16px;
+  --transition-smooth:      0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* --- Typography --- */
+  --font-sans:              'Inter', system-ui, -apple-system, sans-serif;
+  --font-serif:             'Cormorant Garamond', Georgia, serif;
 }
