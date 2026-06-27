@@ -1,15 +1,14 @@
-/* src/styles/components/cards.css */
-
+/* --- 1. Core Card Component --- */
 .card {
   background: var(--color-white, #ffffff);
-  border: 1px solid var(--bg-border, #e5e7eb);
+  border: 1px solid var(--border-default, #e5e7eb);
   padding: 32px;
-  border-radius: 16px;
+  border-radius: var(--border-radius-bento, 16px);
   box-shadow: 0 4px 20px rgba(26, 5, 48, 0.01);
-  transition: border-color 0.2s ease, transform 0.2s ease;
   display: flex;
   flex-direction: column;
   height: 100%;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card:hover {
@@ -41,46 +40,78 @@
   flex-grow: 1;
 }
 
-/* Base Card from our system */
-.card {
-  background: var(--color-white);
-  border: 1px solid var(--border-default);
-  padding: 32px;
-  border-radius: var(--border-radius-bento);
-  box-shadow: 0 4px 20px rgba(26, 5, 48, 0.01);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smoother transition */
-  display: flex;
+/* --- 2. Layout Modifiers --- */
+.card-horizontal {
   flex-direction: column;
+  gap: 24px;
 }
 
-/* Add this specifically for the FAQ cards */
-.faq-card {
-  cursor: default;
+@media (min-width: 768px) {
+  .card-horizontal {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 32px;
+  }
 }
 
-.faq-card:hover {
-  border-color: var(--brand-violet);
-  transform: scale(1.2); 
-  box-shadow: 0 10px 30px rgba(26, 5, 48, 0.08); /* Lift effect */
-  z-index: 10;
+/* --- 3. Feature Components --- */
+.badge {
+  display: inline-block;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--brand-violet);
+  background: #f5f3ff;
+  padding: 6px 12px;
+  border-radius: 20px;
 }
 
-/* Icon Box for feature cards */
-.icon-box {
+.card-icon, .icon-box {
   width: 50px;
   height: 50px;
-  background: #f5f3ff;
-  color: var(--brand-violet);
-  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
   margin-bottom: 20px;
+  background: #f5f3ff;
+  color: var(--brand-violet);
+  border-radius: 12px;
+  font-size: 20px;
 }
 
-/* Partner Card Additions */
-.partner-logo-wrap {
+.card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px 24px;
+  list-style: none;
+  margin-top: 16px;
+  padding: 0;
+}
+
+.card-list li {
+  font-size: 0.95rem;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* --- 4. Page-Specific Components --- */
+
+/* FAQ */
+.faq-card {
+  cursor: default;
+  border-left: 4px solid var(--brand-violet);
+}
+
+.faq-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 30px rgba(26, 5, 48, 0.08);
+  z-index: 10;
+}
+
+/* Partners */
+.card-logo-wrap {
   width: 100%;
   height: 120px;
   display: flex;
@@ -93,13 +124,13 @@
   overflow: hidden;
 }
 
-.partner-logo-wrap img {
+.card-logo-wrap img {
   max-width: 70%;
   max-height: 70%;
   object-fit: contain;
 }
 
-/* Financial Transparency */
+/* Transparency */
 .registry-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -113,63 +144,8 @@
   border-radius: 8px;
   border-left: 3px solid var(--brand-violet);
 }
-.registry-item strong {
-  display: block;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--brand-violet);
-  margin-bottom: 4px;
-}
-.registry-item span {
-  font-size: 0.95rem;
-  font-family: monospace;
-  color: var(--ink-primary);
-  font-weight: 600;
-}
 
-.badge {
-  
-  display: inline-block;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--brand-violet);
-  background: #f5f3ff;
-  padding: 6px 12px;
-  border-radius: 20px;
-}
-
-/* Ensure buttons inside cards are consistent */
-.card .btn-solid {
-  margin-top: auto; /* Pushes the button to the bottom of the card */
-  display: inline-block;
-  text-align: center;
-}
-
-/* Modifier: Horizontal Layout (Used for Trustees) */
-.card.card-horizontal {
-  flex-direction: row;
-  gap: 32px;
-}
-
-/* Trustee Page  */
-.footer-note {
-  max-width: 800px;
-  margin: 60px auto 0 auto;
-  padding: 40px;
-  background: rgb(227, 215, 235);
-  border-radius: 20px;
-  text-align: center;
-  color: var(--muted);
-  font-size: 16px;
-  line-height: 1.8;
-}
-
-.footer-note p {
-  margin-bottom: 20px;
-}
-
+/* Trustees */
 .initials-box {
   width: 90px;
   height: 90px;
@@ -184,64 +160,46 @@
   font-size: 32px;
   font-weight: 700;
   border: 3px solid #ffffff;
-  box-shadow: 0 4px 10px rgba(139, 92, 246, 0.15); /* Adds depth */
+  box-shadow: 0 4px 10px rgba(139, 92, 246, 0.15);
 }
 
-/* Add this to cards.css to handle the two-column contact layout */
+/* Contact */
 .contact-grid-layout {
   display: grid;
   grid-template-columns: 1fr;
   gap: 32px;
-  align-items: start; 
 }
 
 @media (min-width: 1024px) {
   .contact-grid-layout {
-    grid-template-columns: 350px 1fr; 
+    /* Changed from 350px 1fr to equal split */
+    grid-template-columns: 1fr 1fr; 
     gap: 48px;
   }
 }
 
-.bullet-list {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* Forces two columns */
-  gap: 12px 24px;                 /* Row and column spacing */
-  list-style: none;
-  padding: 0;
-  margin-top: 16px;
+.contact-sidebar {
+  background: var(--color-mist);
+  border: none;
 }
 
-.bullet-list li {
-  font-size: 0.95rem;
-  color: #374151;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+/* --- 5. Compound Component Classes (The "Shortcut" Classes) --- */
+
+/* Used for content sections that need a top-brand accent line */
+.card-section-featured {
+  background: var(--color-white);
+  border: 1px solid var(--bg-border);
+  border-top: 4px solid var(--brand-violet); /* Centralized top brand border */
+  padding: 48px; /* Standardized p-xl */
+  border-radius: 16px;
+  margin-bottom: 32px; /* Standardized mb-lg */
+  box-shadow: 0 4px 20px rgba(26, 5, 48, 0.01);
 }
 
-/* Ensure checkmark is vertically aligned */
-.bullet-list li span {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-@media (max-width: 640px) {
-  .card.card-horizontal {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .bullet-list {
-    grid-template-columns: 1fr; /* Stacks on mobile */
-  }
-}
-
-@media (min-width: 1024px) {
-  .contact-grid-layout {
-    /* Sidebar is a fixed 350px, Form takes remaining space */
-    grid-template-columns: 350px 1fr; 
-    gap: 48px;
-  }
+/* Used for dense info sections (like Transparency or Contact Sidebar) */
+.card-info-box {
+  background: var(--color-mist);
+  padding: 32px;
+  border-radius: 12px;
+  border: none;
 }

@@ -13,7 +13,7 @@ export default function OurStoryPage() {
           <p className="hero-tagline">Tracing our foundational journey, core values, and scientific trajectory.</p>
         </header>
 
-        <article className="story-narrative">
+        <article className="content-editorial">
           {/* Main Story Content */}
           <section className="story-block">
             <h2>Who We Are</h2>
@@ -26,8 +26,8 @@ export default function OurStoryPage() {
           </section>
 
           {/* New Callout Style: Integrated Focus Block */}
-          <section className="story-callout">
-            <h3>Our Scientific Vision</h3>
+          <section className="story-narrative">
+            <h2>Our Scientific Vision</h2>
             <p>
               To solve complex biological questions while prioritizing exploratory human assessment and transparency.
             </p>
@@ -40,7 +40,7 @@ export default function OurStoryPage() {
           </section>
 
           {/* History Chronology */}
-          <section className="story-block">
+          <section className="story-narrative">
             <h2>Continuing the Legacy</h2>
             <p>
               The foundation began with a singular focus: offering scholarships and foundational guidance to young students within underrepresented regional communities. Over time, that directive scaled as the intersection of computational power and biological datasets transformed the scientific map.

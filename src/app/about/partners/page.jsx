@@ -28,7 +28,7 @@ export default function PartnersPage() {
         <section className="grid partners-grid">     
                {partners.map((partner, idx) => (
           <div key={idx} className="card">
-            <div className="partner-logo-wrap">
+            <div className="card-logo-wrap">
               <img src={partner.logo} alt={partner.name} />
             </div>
             <h3 className="card-title text-lg">{partner.name}</h3>

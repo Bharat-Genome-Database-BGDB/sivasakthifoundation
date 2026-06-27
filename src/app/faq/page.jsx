@@ -41,11 +41,11 @@ export default function FaqPage() {
         </header>
 
         {/* Clean, static grid of cards */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-lg">
+        <section className="faq-grid">
           {faqData.map((item, idx) => (
-            <div key={idx} className="card faq-card p-xl">
-              <h3 className="card-title text-xl">{item.q}</h3>
-              <p className="card-body text-ink-secondary">{item.a}</p>
+            <div key={idx} className="card faq-card">
+              <h3 className="card-title">{item.q}</h3>
+              <p className="card-body">{item.a}</p>
             </div>
           ))}
         </section>

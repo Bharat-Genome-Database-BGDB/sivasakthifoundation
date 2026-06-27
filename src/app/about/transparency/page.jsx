@@ -6,34 +6,34 @@ import "@styles/main.css";
 export default function TransparencyPage() {
   return (
     <Layout title="Financial Transparency | About" description="Public disclosures, trust registration records, and governance files.">
-      <main className="container py-xl">
+      <main className="container">
 
-        <header className="hero mb-lg">
+        <header className="hero-section">
           <h1 className="hero-title">Financial Transparency</h1>
           <p className="hero-tagline">Our commitment to open governance, public accountability, and compliance standards.</p>
         </header>
 
         {/* Section 1: Trust Profile & Statutory Registry */}
-        <section className="card mb-lg">
-          <h2>Trust Registration Details</h2>
-          <p className="card-body mb-md">
+        <section className="card">
+          <h2 className="card-title">Trust Registration Details</h2>
+          <p className="card-body">
             Sivasakthi Science Foundation™ operates as a legally registered public charitable trust. We maintain strict alignment with non-profit accounting directives, ensuring all capital allocations directly support our core research, internships, and educational tracks.
           </p>
 
-          <div className="registry-grid">
-            <div className="registry-item">
+          <div className="info-grid">
+            <div className="info-item">
               <strong>Entity Type</strong>
               <span>Public Charitable Trust</span>
             </div>
-            <div className="registry-item">
+            <div className="info-item">
               <strong>Registration Number</strong>
               <span>IV/163/2024</span>
             </div>
-            <div className="registry-item">
+            <div className="info-item">
               <strong>Place of Registration</strong>
               <span>Thiruvananthapuram, India</span>
             </div>
-            <div className="registry-item">
+            <div className="info-item">
               <strong>Auditing Frequency</strong>
               <span>Annual Statutory Review</span>
             </div>

@@ -55,11 +55,11 @@ export default function InitiativesPage() {
           {initiatives.map((item, idx) => (
             <div key={idx} className="card p-xl">
               <span className="badge">{item.badge}</span>
-              <h2 className="card-title text-2xl mb-md">{item.title}</h2>
-              <p className="card-body mb-lg">{item.bio}</p>
+              <h2 className="card-title">{item.title}</h2>
+              <p className="card-body">{item.bio}</p>
 
               {/* Feature List Grid */}
-              <ul className="bullet-list">
+              <ul className="card-list">
                 {item.items.map((list, i) => (
                   <li key={i} >
                     <span className="text-brand-violet">✓</span> {list}

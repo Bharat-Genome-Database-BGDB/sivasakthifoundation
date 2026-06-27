@@ -32,19 +32,19 @@ export default function HomePage() {
           <div className="grid grid-3"> {/* Updated to use standard grid system */}
             
             <div className="card">
-              <div className="icon-box"><i className="fas fa-dna"></i></div>
+              <div className="card-icon"><i className="fas fa-dna"></i></div>
               <h3 className="card-title">Genomics & BioInfo</h3>
               <p className="card-body">Deploying open-source sequence processing maps and data hubs to archive and analyze biological datasets across regional profiles.</p>
             </div>
 
             <div className="card">
-              <div className="icon-box"><i className="fas fa-brain"></i></div>
+              <div className="card-icon"><i className="fas fa-brain"></i></div>
               <h3 className="card-title">Artificial Intelligence</h3>
               <p className="card-body">Leveraging neural pattern mapping and computational deep learning to speed up predictive sequence modeling and translational informatics.</p>
             </div>
 
             <div className="card">
-              <div className="icon-box"><i className="fas fa-seedling"></i></div>
+              <div className="card-icon"><i className="fas fa-seedling"></i></div>
               <h3 className="card-title">Incubator Systems</h3>
               <p className="card-body">Providing independent research funding, high-performance cloud compute assets, and direct academic pipelines for emerging scientific talents.</p>
             </div>

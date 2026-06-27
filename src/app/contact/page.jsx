@@ -1,4 +1,3 @@
-// src/app/contact/page.jsx
 'use client';
 
 import { useState } from "react";
@@ -70,45 +69,36 @@ export default function ContactPage() {
         </header>
 
         <section className="contact-grid-layout">
-          {/* Sidebar */}
-          <aside className="flex flex-col gap-md">
-
-            <div className="card">
-              <div className="icon-box">
-                <i className="fas fa-map-marker-alt"></i>
-              </div>
-              <h3 className="card-title"> Foundation Office
-              </h3>
+          {/* Info Section: Stacked cards in the left column */}
+          <div className="section-stack">
+            <div className="card p-xl contact-sidebar">
+              <div className="icon-box"><i className="fas fa-map-marker-alt"></i></div>
+              <h3 className="card-title">Foundation Office</h3>
               <p className="card-body">7, Belhaven Gardens, Kawdiar,<br /> Thiruvananthapuram, Kerala, India</p>
               <p className="card-body"><strong>Email:</strong> info@sivasakthifoundation.org</p>
             </div>
 
-            <div className="card">
-              <div className="icon-box">
-                <i className="fas fa-handshake"></i>
-              </div>
-              <h3 className="card-title">Institutional Partnerships
-              </h3>
+            <div className="card p-xl contact-sidebar">
+              <div className="icon-box"><i className="fas fa-handshake"></i></div>
+              <h3 className="card-title">Institutional Partnerships</h3>
               <p className="card-body">We welcome joint biological processing requests and deep learning computational project proposals.</p>
             </div>
 
-            <div className="card">
-              <div className="icon-box">
-                <i className="fas fa-users"></i>
-              </div>
-              <h3 className="card-title">Engagement Opportunities
-              </h3>
+            <div className="card p-xl contact-sidebar">
+              <div className="icon-box"><i className="fas fa-users"></i></div>
+              <h3 className="card-title">Engagement Opportunities</h3>
               <p className="card-body">Volunteers support our educational track pathways through:</p>
-              <ul className="card-body" style={{ paddingLeft: '20px' }}>
+              <ul className="card-list">
                 <li>Science awareness campaigns</li>
                 <li>Computational biology training support</li>
                 <li>Community data outreach pipelines</li>
               </ul>
             </div>
-          </aside>
+          </div>
 
-          {/* Form */}
+          {/* Form Section */}
           <section className="card p-xl">
+            <h3 className="card-title">Send a Message</h3>
             <form onSubmit={handleSubmit} className="contact-form">
               <div className="form-group">
                 <label htmlFor="name">Full Name</label>
@@ -127,8 +117,8 @@ export default function ContactPage() {
                 <textarea id="message" name="message" rows="5" placeholder="Type your detailed message here..." required></textarea>
               </div>
 
-              {formStatus === "success" && <p style={{ color: 'green', fontSize: '0.9rem', fontWeight: '600' }}>✓ Thank you! Your message has been sent.</p>}
-              {formStatus === "error" && <p style={{ color: 'red', fontSize: '0.9rem', fontWeight: '600' }}>⚠ Error: {errorMessage}</p>}
+              {formStatus === "success" && <p className="form-feedback success">✓ Thank you! Your message has been sent.</p>}
+              {formStatus === "error" && <p className="form-feedback error">⚠ Error: {errorMessage}</p>}
 
               <button type="submit" className="submit-btn" disabled={formStatus === "submitting"}>
                 {formStatus === "submitting" ? "Sending..." : "Send Message"}
