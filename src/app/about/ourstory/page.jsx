@@ -15,7 +15,7 @@ export default function OurStoryPage() {
 
         <article className="content-editorial">
           {/* Main Story Content */}
-          <section className="story-block">
+          <section className="card">
             <h2>Who We Are</h2>
             <p>
               Sivasakthi Science Foundation™ is a public charitable trust dedicated to advancing education, research, and scientific innovation. The foundation works across disciplines to encourage knowledge creation, support meaningful learning, and connect academic ideas with practical, real-world impact.
@@ -26,7 +26,7 @@ export default function OurStoryPage() {
           </section>
 
           {/* New Callout Style: Integrated Focus Block */}
-          <section className="story-narrative">
+          <section className="card">
             <h2>Our Scientific Vision</h2>
             <p>
               To solve complex biological questions while prioritizing exploratory human assessment and transparency.
@@ -40,7 +40,7 @@ export default function OurStoryPage() {
           </section>
 
           {/* History Chronology */}
-          <section className="story-narrative">
+          <section className="card">
             <h2>Continuing the Legacy</h2>
             <p>
               The foundation began with a singular focus: offering scholarships and foundational guidance to young students within underrepresented regional communities. Over time, that directive scaled as the intersection of computational power and biological datasets transformed the scientific map.

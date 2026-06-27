@@ -1,61 +1,24 @@
-/* src/styles/globals.css */
+/* src/styles/globals.scss */
 
-/* 1. Central Design System Variables */
-:root {
-  /* System Typography Tokens */
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-serif: 'Cormorant Garamond', Georgia, serif;
-
-  /* Theme Core Palette */
-  --brand-violet: #7c3aed;
-  --brand-violet-hover: #6d28d9;
-  --ink-primary: #1a0530;
-  --bg-border: #ede9fe;
-  
-  /* Global Layout Constrainers */
-  --max-content-width: 900px;
-}
-
-/* 2. Base Document Reset & Defaults */
-* {
+/* 1. Global Reset */
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+/* 2. Base Document Settings */
 body {
-  background-color: #ffffff;
+  background-color: var(--bg-canvas);
+  color: var(--text-main);
   font-family: var(--font-sans);
-  color: #374151; /* Default dark gray body copy across all pages */
   -webkit-font-smoothing: antialiased;
-}
-
-/* 3. Universal Typography Scaling */
-h1, h2, h3 {
-  color: var(--ink-primary);
-  font-family: var(--font-serif);
-}
-
-/* 4. Common Reusable Layout Groups */
-.hero-identity-group {
-  text-align: center;
-  max-width: 750px;
-  margin: 0 auto 48px;
-}
-
-.hero-main-title {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  font-size: 42px;
-  font-weight: 800;
-  line-height: 1.2;
-  margin-bottom: 16px;
-}
-
-.hero-sub-tagline {
-  font-size: 16px;
-  color: #4b5563;
   line-height: 1.6;
+}
+
+/* 3. Global Layout Constraints */
+.container {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: 0 24px;
 }
