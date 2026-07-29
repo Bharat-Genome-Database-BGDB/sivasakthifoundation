@@ -65,8 +65,10 @@ const Footer = () => {
         <div className="footer-links">
           <h4>Engage</h4>
           <Link href="/faq">Frequently Asked Questions</Link>
-          <Link href="/contact">Contact Us</Link>
           <Link href="/privacy">Privacy & Terms</Link>
+          <Link href="https://sivasakthifoundation.org/admin/dashboard" target="_blank" rel="noopener noreferrer">
+            Admin Portal
+          </Link>
         </div>
 
         {/* Dynamic Column 4: Template Access Layer for RBAC states */}

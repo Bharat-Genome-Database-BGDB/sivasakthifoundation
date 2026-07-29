@@ -8,12 +8,12 @@ export default function OurStoryPage() {
       <main className="container">
         
         {/* Editorial Layout: Center-aligned narrative block */}
-        <header className="hero-section">
+        <header className="hero mb-lg">
           <h1 className="hero-title">Our Story & History</h1>
           <p className="hero-tagline">Tracing our foundational journey, core values, and scientific trajectory.</p>
         </header>
 
-        <article className="content-editorial">
+        <article className="grid grid-cols-1 gap-lg">
           {/* Main Story Content */}
           <section className="card">
             <h2>Who We Are</h2>

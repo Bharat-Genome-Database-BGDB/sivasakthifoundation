@@ -37,7 +37,7 @@ export default function TrusteesPage() {
 
   return (
     <Layout title="Board of Trustees | About" description="...">
-      <main className="container"> {/* Using global spacing utility */}
+      <main className="container">
 
         <header className="hero mb-lg">
           <h1 className="hero-title">Board of Trustees</h1>
