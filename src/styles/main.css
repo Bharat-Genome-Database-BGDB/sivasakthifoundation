@@ -1,6 +1,28 @@
+/* Design Tokens / Variables (Must be loaded first) */
+
+/* Core Component Library */
+@import './components/layout.css';
+@import './components/typography.css';
 @import './components/buttons.css';
 @import './components/cards.css';
-@import './components/layout.css';
 @import './components/hero.css';
-@import './components/typography.css';
 @import './components/forms.css';
+
+/* Global Resets & Base Styles */
+html {
+  scroll-behavior: smooth;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-primary, #ffffff);
+  color: var(--text-primary, #0f172a);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
