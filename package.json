@@ -1,9 +1,9 @@
 {
-  "name": "bgdb-website-template",
+  "name": "sivasakthifoundation",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "homepage": "https://github.com/Bharat-Genome-Database-BGDB/bgdb-website-template",
+  "homepage": "https://github.com/Bharat-Genome-Database-BGDB/sivasakthifoundation",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

@@ -1,26 +1,20 @@
-# Sivasakthi Science Foundation — Master Website Template
-> Base Identifier: `bgdb-website-template`
+# Sivasakthi Science Foundation
 
 ## 🎯 Project Overview
-This repository functions as the high-fidelity, centralized boilerplate designed under the **"More Work Now, Less Maintenance Later"** methodology. It serves as a uniform framework to deploy and scale independent public and gated web domains sharing a single unified data ecosystem:
-
-1. **Sivasakthi Science Foundation (SSF):** Fully public domain presence focusing on strategic scientific narrative, publications, and internship fellowships.
-2. **Bharat Genome Database (BGDB):** Subscriptions-gated vertical implementing secure query systems and genome browser interfaces.
-3. **AarogyaSakthi:** Subscriptions-gated partner portal managing industry-specific translational multi-omics pilots.
+This repository contains the source code for the Sivasakthi Science Foundation (SSF) website. The site serves as the foundation's public presence, focusing on its strategic scientific narrative, publications, and internship fellowships.
 
 ---
 
 ## 🧱 Key Architectural Pillars
 
 ### 1. Shift-Left Quality Gate (Vitest + JSDOM)
-Following the Product Owner in Test (POT) core principles, testing is integrated directly into the system's readiness workflow. 
+Testing is integrated directly into the development workflow.
 * Local builds and automated remote pipelines utilize **Vitest** inside a simulated browser environment.
 * Global mock setups isolate backend configurations (`supabase-mocks.jsx`), allowing feature parsing and component checking without live network overhead.
 
-### 2. Multi-Tenant Shared Database Configuration
+### 2. Database Configuration
 * Powered by a unified cloud client layer leveraging `@supabase/supabase-js`.
 * Pre-wired with Row-Level Security (RLS) hooks and Role-Based Access Control (RBAC) checkpoints (`user`, `member`, `leader`, `admin`, `superadmin`).
-* Domain customization is achieved post-cloning by toggling localized authorization visibility blocks rather than introducing confusing conditional framework logic.
 
 ### 3. Absolute Path Aliasing
 To prevent broken reference errors and eliminate directory fragmentation, standard absolute shortcuts are explicitly synchronized between the Vite testing engine (`vite.config.js`) and the Next.js routing processor (`jsconfig.json`):
@@ -37,14 +31,14 @@ Visual layout consistency is strictly enforced through standard vanilla CSS and 
 ---
 
 ## 📁 Workspace Layout Blueprint
-
 ```text
-bgdb-website-template/
+sivasakthifoundation/
 ├── public/                 # Static asset definitions (Logo.png, icons)
 ├── src/
 │   ├── app/                # Next.js App Routing Layer (Server-Side Rendering Hub)
 │   │   ├── about/          # Nested content sub-slugs (/about/ourstory, /about/trustees)
 │   │   ├── faq/            # Interactive Accordion Page route
+│   │   ├── api/            # API routes
 │   │   ├── layout.jsx      # Mandatory Next.js layout container shell
 │   │   └── page.jsx        # Root Homepage entry view (localhost:3000)
 │   ├── components/
