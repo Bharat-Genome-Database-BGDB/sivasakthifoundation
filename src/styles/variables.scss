@@ -1,33 +1,77 @@
-/* src/styles/variables.scss */
+/* src/styles/variables.scss - Sivasakthi Science Foundation (SSF) Theme Tokens */
+
+// 🎨 SCSS Palette Variables
+$brand-plum: #1a0530;         // Academic Deep Plum
+$brand-plum-mid: #2e1065;     // Mid Plum Accent
+$brand-royal: #4a1080;        // Royal Purple
+$brand-violet: #7c3aed;       // Primary Accent Violet
+$brand-violet-hover: #4a1d96; // Hover Dark Violet
+$brand-lilac: #c4b5fd;        // Soft Lilac Tint
+$color-lavender: #a78bfa;     // Secondary Lavender Accent
+$color-mist: #ede9fe;         // Subtly Tinted Canvas
+$color-soft-bg: #faf8ff;      // Soft Section Canvas
+$color-white: #ffffff;
+
+// 🖋 Typography & Structural Variables
+$font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+$font-serif: 'Cormorant Garamond', Georgia, serif;
+$border-radius-bento: 16px;
+$max-content-width: 1000px;
+$transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
 :root {
-  /* Colors */
+  /* ─── BRAND CORE PALETTE ─── */
   --brand-accent: #7c3aed;
-  --brand-lilac: #c4b5fd;
-  --brand-plum: #1a0530;
-  --brand-plum-mid: #2e1065;
-  --brand-royal: #4a1080;
-  --brand-violet: #7c3aed;
-  --brand-violet-hover: #4a1d96;
-  --color-lavender: #a78bfa;
-  --color-mist: #ede9fe;
-  --color-muted: #6b5f80;
-  --color-soft-bg: #faf8ff;
-  --color-white: #ffffff;
-  
-  /* Semantic Aliases */
+  --brand-accent-hover: #4a1d96;
+  --brand-primary: #1a0530;
+  --brand-primary-hover: #2e1065;
+  --brand-secondary: #4a1080;
+  --brand-surface-subtle: #ede9fe;
+
+  /* ─── BACKGROUND & CANVAS ─── */
   --bg-border: #f3f4f6;
   --bg-canvas: #ffffff;
   --bg-main: #ffffff;
   --bg-section: #faf8ff;
-  --ink-muted: rgba(196, 181, 253, 0.65);
+
+  /* ─── TYPOGRAPHY TOKENS ─── */
+  --ink-muted: #6b5f80;
   --ink-primary: #1e0535;
   --ink-secondary: #4b5563;
-  --text-heading: var(--brand-plum);
+  --text-heading: #1a0530;
   --text-main: #374151;
-  
-  /* Layout & Typography */
+  --text-muted: #6b5f80;
+
+  /* ─── BUTTON COMPONENT TOKENS ─── */
+  --btn-bg-primary: var(--brand-accent);
+  --btn-bg-primary-hover: var(--brand-accent-hover);
+  --btn-bg-secondary: var(--bg-section);
+  --btn-bg-secondary-hover: var(--brand-surface-subtle);
+  --btn-border-secondary: var(--bg-border);
+  --btn-text-primary: #ffffff;
+  --btn-text-secondary: var(--ink-primary);
+
+  /* ─── CARD COMPONENT TOKENS ─── */
+  --card-bg: #ffffff;
+  --card-border: #f3f4f6;
+  --card-border-accent: var(--brand-accent);
+  --card-shadow: 0 4px 12px rgba(26, 5, 48, 0.05);
+  --card-shadow-hover: 0 8px 24px rgba(124, 58, 237, 0.12);
+
+  /* ─── FORM COMPONENT TOKENS ─── */
+  --form-focus-ring: var(--brand-accent);
+  --form-input-bg: #ffffff;
+  --form-input-border: #e2e8f0;
+
+  /* ─── NAVIGATION & FOOTER ─── */
+  --footer-bg: #1a0530;
+  --footer-text: #faf8ff;
+  --header-bg: #ffffff;
+  --header-border: #f3f4f6;
+
+  /* ─── TYPOGRAPHY & LAYOUT STANDARDS ─── */
   --border-radius-bento: 16px;
-  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-serif: 'Cormorant Garamond', Georgia, serif;
   --max-content-width: 1000px;
   --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);

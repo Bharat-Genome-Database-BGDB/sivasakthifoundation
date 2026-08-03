@@ -1,65 +1,86 @@
-/* src/styles/globals.scss */
+/* src/styles/globals.scss - Global Base Reset & Typography Standards */
 
-/* 1. Global Reset & Base Rules */
-*, *::before, *::after {
+/* ─── 1. Global Reset & Base Rules ─── */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   background-color: var(--bg-canvas);
   color: var(--text-main);
   font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
   line-height: 1.6;
   margin: 0;
   padding: 0;
+
 }
 
-/* 2. Global Typography Defaults */
-h1, h2, h3, h4, h5, h6 {
+/* ─── 2. Typography Standards ─── */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: var(--text-heading);
   font-family: var(--font-serif);
   line-height: 1.2;
   margin-bottom: 1rem;
 }
 
-h1 { font-size: clamp(2.5rem, 5vw, 3.5rem); }
-h2 { font-size: clamp(2rem, 4vw, 2.5rem); }
-h3 { font-size: 1.5rem; }
+h1 {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+h2 {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+}
+
+h3 {
+  font-size: 1.5rem;
+}
 
 a {
   color: var(--brand-accent);
   text-decoration: none;
-  transition: opacity 0.2s;
+  transition: opacity var(--transition-smooth, 0.2s ease);
 }
 
 a:hover {
   opacity: 0.8;
 }
 
-/* 3. Global Layout Constraints */
+/* ─── 3. Global Layout Constraints ─── */
 .container {
-  max-width: var(--max-content-width);
   margin: 0 auto;
+  max-width: var(--max-content-width);
   padding: 0 24px;
 }
 
 .main-content-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 60px 24px 80px;
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 60px 24px 80px;
 }
 
-/* 4. Global Helper Classes */
-.text-small {
-  font-size: 0.875rem;
-  color: var(--color-muted);
-}
-
+/* ─── 4. Global Helper Classes ─── */
 .text-bold {
   font-weight: 700;
+}
+
+.text-small {
+  color: var(--text-muted);
+  font-size: 0.875rem;
 }

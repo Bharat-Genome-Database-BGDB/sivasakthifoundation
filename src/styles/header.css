@@ -1,55 +1,78 @@
-/* src/styles/header.css */
+/* src/styles/header.css - Universal Header Component Styles */
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap');
-
-/* --- 1. Global Shell --- */
+/* ─── 1. Global Shell ─── */
 .site-header {
-  background-color: #ffffff;
+  background-color: var(--header-bg);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-sans);
   position: relative;
   width: 100%;
   z-index: 1000;
 }
 
-/* --- 2. Branding & Main Navigation --- */
-.brand-logo {
-  height: 48px;
-  width: auto;
-}
-
-.brand-tagline {
-  color: #6b7280;
-  font-size: 11px;
+/* ─── 2. Top Bar Ecosystem ─── */
+.top-bar {
+  background-color: var(--brand-primary);
+  color: #ffffff;
+  font-size: 13px;
   font-weight: 500;
-  letter-spacing: 0.5px;
-  margin: 0;
+  padding: 8px 24px;
 }
 
-.brand-title {
-  color: #1e0535;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px;
-  font-weight: 700;
-  margin: 0;
-}
-
-.header__brand {
+.top-bar-container {
   align-items: center;
   display: flex;
-  gap: 12px;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.top-bar-ecosystem,
+.top-bar-socials {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+}
+
+.nav-item-link,
+.social-link {
+  color: #ffffff;
+  font-size: 14px;
+  opacity: 0.85;
   text-decoration: none;
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  transition: all var(--transition-smooth, 0.2s ease);
 }
 
-.header__brand:hover {
-  box-shadow: 0 10px 30px rgba(26, 5, 48, 0.08);
-  transform: scale(1.2);
-  z-index: 10;
+.nav-item-link:hover,
+.social-link:hover {
+  opacity: 1;
 }
 
+.nav-wrapper-item {
+  align-items: center;
+  color: #ffffff;
+  display: flex;
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0.85;
+  transition: opacity var(--transition-smooth, 0.2s ease);
+}
+
+.nav-wrapper-item:hover {
+  opacity: 1;
+}
+
+.separator {
+  color: var(--brand-accent);
+  font-size: 16px;
+  margin: 0 8px;
+  opacity: 0.6;
+}
+
+/* ─── 3. Branding & Main Navigation ─── */
 .main-nav-container {
-  background-color: #ffffff;
+  background-color: var(--header-bg);
+  border-bottom: 1px solid var(--header-border);
   padding: 12px 24px;
 }
 
@@ -61,22 +84,73 @@
   max-width: 1200px;
 }
 
-/* --- 3. Navigation Links & Dropdowns --- */
-.dropdown-link-item {
-  color: #4b5563;
-  display: block;
-  font-size: 14px;
-  padding: 10px 20px;
+.header__brand {
+  align-items: center;
+  display: flex;
+  gap: 12px;
   text-decoration: none;
+  transition: transform var(--transition-smooth, 0.2s ease);
 }
 
-.dropdown-link-item:hover {
-  background: #f3e8ff;
-  color: #7c3aed;
+.header__brand:hover {
+  transform: scale(1.02);
 }
 
+.brand-logo {
+  height: 48px;
+  width: auto;
+}
+
+.brand-title {
+  color: var(--text-heading);
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.brand-tagline {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.nav-list {
+  align-items: center;
+  display: flex;
+  gap: 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-link-item {
+  align-items: center;
+  color: var(--text-heading);
+  display: flex;
+  font-size: 15px;
+  font-weight: 500;
+  gap: 6px;
+  padding: 8px 4px;
+  text-decoration: none;
+  transition: color var(--transition-smooth, 0.2s ease);
+}
+
+.nav-link-item:hover,
+.nav-link-item.active {
+  color: var(--brand-accent);
+}
+
+/* ─── 4. Dropdowns ─── */
 .dropdown-menu {
-  background: #fff;
+  background-color: var(--header-bg);
+  border: 1px solid var(--header-border);
   border-radius: 6px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   display: none;
@@ -93,43 +167,21 @@
   display: block;
 }
 
-.nav-item {
-  position: relative;
-}
-
-.nav-link-item {
-  align-items: center;
-  color: #1e0535;
-  display: flex;
-  font-size: 15px;
-  font-weight: 500;
-  gap: 6px;
-  padding: 8px 4px;
+.dropdown-link-item {
+  color: var(--text-main);
+  display: block;
+  font-size: 14px;
+  padding: 10px 20px;
   text-decoration: none;
+  transition: all var(--transition-smooth, 0.2s ease);
 }
 
-.nav-link-item:hover,
-.nav-link-item.active {
-  color: #7c3aed;
+.dropdown-link-item:hover {
+  background-color: var(--brand-surface-subtle);
+  color: var(--brand-accent);
 }
 
-.nav-list {
-  align-items: center;
-  display: flex;
-  gap: 24px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-/* --- 4. Mobile Controls --- */
-.hamburger-bar {
-  background: #1e0535;
-  height: 2px;
-  margin: 4px 0;
-  width: 24px;
-}
-
+/* ─── 5. Mobile Controls ─── */
 .mobile-nav-toggle {
   background: transparent;
   border: none;
@@ -137,88 +189,23 @@
   display: none;
 }
 
-/* --- 5. Top Bar Ecosystem --- */
-.nav-item-link {
-  color: #f3e8ff;
-  text-decoration: none;
-  transition: opacity 0.2s;
+.hamburger-bar {
+  background-color: var(--text-heading);
+  height: 2px;
+  margin: 4px 0;
+  width: 24px;
 }
 
-.nav-item-link:hover {
-  opacity: 0.8;
-}
-
-.nav-wrapper-item {
-  align-items: center;
-  color: #f3e8ff;
-  display: flex;
-  font-size: 12px;
-  font-style: bold;
-  transition: color 0.2s ease;
-}
-
-.nav-wrapper-item:hover {
-  color: #ffffff;
-  font-size: 16px;
-}
-
-.separator {
-  color: #a78bfa;
-  font-size: 20px;
-  margin: 0 10px;
-}
-
-.social-link {
-  color: #f3e8ff;
-  font-size: 14px;
-  transition: color 0.2s ease;
-}
-
-.social-link:hover {
-  color: #ffffff;
-  font-size: 20px;
-}
-
-.top-bar {
-  background-color: #2e1065;
-  color: #f3e8ff;
-  font-size: 13px;
-  font-weight: 500;
-  padding: 8px 24px;
-}
-
-.top-bar-container {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  margin: 0 auto;
-  max-width: 1200px;
-}
-
-.top-bar-ecosystem {
-  align-items: center;
-  display: flex;
-  gap: 16px;
-}
-
-.top-bar-socials {
-  align-items: center;
-  display: flex;
-  gap: 16px;
-}
-
-/* --- 6. Responsive Breakpoints --- */
+/* ─── 6. Responsive Breakpoints ─── */
 @media (max-width: 992px) {
   .mobile-nav-toggle {
     display: flex;
     flex-direction: column;
   }
-  .nav-list {
-    align-items: flex-start;
-    flex-direction: column;
-  }
+
   .nav-menu {
-    background: white;
+    background-color: var(--header-bg);
+    border-bottom: 1px solid var(--header-border);
     display: none;
     left: 0;
     padding: 20px;
@@ -226,7 +213,13 @@
     top: 100%;
     width: 100%;
   }
+
   .nav-menu.open {
     display: block;
+  }
+
+  .nav-list {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
