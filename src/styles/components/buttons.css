@@ -4,7 +4,7 @@
 .btn-accent,
 .btn-outline,
 .btn-solid,
-.form-submit-btn {
+.submit-btn {
   align-items: center;
   border-radius: 8px;
   cursor: pointer;
@@ -23,27 +23,27 @@
 .btn-accent:focus-visible,
 .btn-outline:focus-visible,
 .btn-solid:focus-visible,
-.form-submit-btn:focus-visible {
+.submit-btn:focus-visible {
   outline: 2px solid var(--form-focus-ring);
   outline-offset: 2px;
 }
 
 /* Helper class for full-width buttons inside forms/containers */
 .btn-full,
-.form-submit-btn {
+.submit-btn {
   width: 100%;
 }
 
 /* ─── 2. Primary Solid Button ─── */
 .btn-solid,
-.form-submit-btn {
+.submit-btn {
   background-color: var(--btn-bg-primary);
   border: 1px solid var(--btn-bg-primary);
   color: var(--btn-text-primary, #ffffff);
 }
 
 .btn-solid:hover,
-.form-submit-btn:hover {
+.submit-btn:hover {
   background-color: var(--btn-bg-primary-hover);
   border-color: var(--btn-bg-primary-hover);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
@@ -84,7 +84,7 @@
 .btn-accent:disabled,
 .btn-outline:disabled,
 .btn-solid:disabled,
-.form-submit-btn:disabled {
+.submit-btn:disabled {
   background-color: var(--bg-border);
   border-color: var(--bg-border);
   box-shadow: none;

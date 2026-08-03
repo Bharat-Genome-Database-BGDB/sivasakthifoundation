@@ -43,6 +43,10 @@ $transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --text-muted: #6b5f80;
 
   /* ─── BUTTON COMPONENT TOKENS ─── */
+  /* ─── SSF BUTTON TOKENS ─── */
+  --btn-bg-primary: #7c3aed;        /* Electric Violet Primary Button */
+  --btn-bg-primary-hover: #4a1d96;  /* Deep Violet Hover */
+  --btn-text-primary: #ffffff;      /* White Text */
   --btn-bg-primary: #7c3aed;
   --btn-bg-primary-hover: #4a1d96;
   --btn-bg-secondary: #faf8ff;
