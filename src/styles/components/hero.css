@@ -1,13 +1,25 @@
-/* --- Hero Component --- */
+/* src/styles/components/hero.css - Universal Hero Component Styles */
+
+/* ─── 1. Hero Outer Shell ─── */
 .hero {
-  background: var(--bg-main);
+  background-color: var(--bg-main, #ffffff);
   padding: 80px 24px;
   text-align: center;
+  width: 100%;
 }
 
 .hero-content {
   margin: 0 auto;
   max-width: 800px;
+}
+
+/* ─── 2. Hero Typography ─── */
+.hero-title {
+  color: var(--text-heading);
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  line-height: 1.1;
+  margin-bottom: 16px;
 }
 
 .hero-tagline {
@@ -18,10 +30,30 @@
   max-width: 600px;
 }
 
-.hero-title {
-  color: var(--text-heading);
-  font-family: var(--font-serif);
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
-  line-height: 1.1;
-  margin-bottom: 16px;
+/* ─── 3. Hero Actions & CTA Wrappers ─── */
+.hero-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+/* ─── 4. Responsive Adjustments ─── */
+@media (max-width: 640px) {
+  .hero {
+    padding: 48px 16px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-actions .btn-solid,
+  .hero-actions .btn-outline,
+  .hero-actions .btn-accent {
+    width: 100%;
+  }
 }

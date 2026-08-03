@@ -1,7 +1,12 @@
-/* src/styles/components/typography.css */
+/* src/styles/components/typography.css - Universal Typography Component Styles */
 
-/* Headings (Serif Elegance) */
-h1, h2, h3, h4, h5, h6 {
+/* ─── 1. Headings (Serif Elegance) ─── */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: var(--text-heading);
   font-family: var(--font-serif);
   font-weight: 600;
@@ -9,33 +14,61 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 0 1rem 0;
 }
 
-h1 { font-size: clamp(2.5rem, 5vw, 3.5rem); }
-h2 { font-size: clamp(2rem, 4vw, 2.5rem); }
-h3 { font-size: 1.5rem; }
-h4 { font-size: 1.25rem; }
+h1 {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+}
 
-/* Links */
+h2 {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+}
+
+/* ─── 2. Links & Inline Navigation ─── */
 a {
   color: var(--brand-accent);
   text-decoration: none;
-  transition: opacity 0.2s;
+  transition: opacity var(--transition-smooth, 0.2s ease);
 }
 
-a:hover { opacity: 0.8; }
+a:hover {
+  opacity: 0.8;
+}
 
-/* Lists */
-li { margin-bottom: 0.5rem; }
-ul, ol { margin-bottom: 1.5rem; padding-left: 1.5rem; }
+/* ─── 3. Standard Lists ─── */
+ol,
+ul {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
 
-/* Helpers */
-.text-bold { font-weight: 700; }
-.text-ink-secondary { color: var(--ink-secondary); }
-.text-small { color: var(--color-muted); font-size: 0.875rem; }
+li {
+  margin-bottom: 0.5rem;
+}
 
-/* Footer Note: Used for page-level disclaimers or credits */
+/* ─── 4. Typography Utilities ─── */
+.text-bold {
+  font-weight: 700;
+}
+
+.text-ink-secondary {
+  color: var(--ink-secondary);
+}
+
+.text-small {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+/* ─── 5. Special Callouts & Footer Notes ─── */
 .footer-note {
-  background: transparent; 
-  background-color: var(--brand-lilac); 
+  background-color: var(--brand-surface-subtle);
   border-radius: 12px;
   font-size: 0.95rem;
   line-height: 1.8;
@@ -47,4 +80,8 @@ ul, ol { margin-bottom: 1.5rem; padding-left: 1.5rem; }
 
 .footer-note p {
   margin-bottom: 20px;
+}
+
+.footer-note p:last-child {
+  margin-bottom: 0;
 }

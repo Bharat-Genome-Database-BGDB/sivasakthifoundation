@@ -1,56 +1,95 @@
-/* src/styles/components/buttons.css */
+/* src/styles/components/buttons.css - Universal Button Component Styles */
 
-/* --- Base Button Reset --- */
-.btn {
+/* ─── 1. Base Shared Button Rules ─── */
+.btn-accent,
+.btn-outline,
+.btn-solid,
+.form-submit-btn {
+  align-items: center;
   border-radius: 8px;
   cursor: pointer;
-  display: inline-block;
-  font-size: 14px;
+  display: inline-flex;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
   font-weight: 600;
-  padding: 10px 24px;
+  gap: 8px;
+  justify-content: center;
+  padding: 12px 24px;
   text-align: center;
   text-decoration: none;
-  transition: transform var(--transition-smooth), background 0.2s;
+  transition: all var(--transition-smooth, 0.2s ease);
 }
 
-.btn:hover {
+.btn-accent:focus-visible,
+.btn-outline:focus-visible,
+.btn-solid:focus-visible,
+.form-submit-btn:focus-visible {
+  outline: 2px solid var(--form-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Helper class for full-width buttons inside forms/containers */
+.btn-full,
+.form-submit-btn {
+  width: 100%;
+}
+
+/* ─── 2. Primary Solid Button ─── */
+.btn-solid,
+.form-submit-btn {
+  background-color: var(--btn-bg-primary);
+  border: 1px solid var(--btn-bg-primary);
+  color: var(--btn-text-primary, #ffffff);
+}
+
+.btn-solid:hover,
+.form-submit-btn:hover {
+  background-color: var(--btn-bg-primary-hover);
+  border-color: var(--btn-bg-primary-hover);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  color: var(--btn-text-primary, #ffffff);
   transform: translateY(-2px);
 }
 
-/* --- Variation 1: Solid Primary (Action) --- */
-.btn-solid {
-  background: var(--brand-primary);
-  border: none;
-  color: var(--color-white);
+/* ─── 3. Accent CTA Button ─── */
+.btn-accent {
+  background-color: var(--brand-accent);
+  border: 1px solid var(--brand-accent);
+  color: #ffffff;
 }
 
-.btn-solid:hover {
-  background: var(--brand-royal); /* Updated from --color-deep to align with variables */
+.btn-accent:hover {
+  background-color: var(--brand-accent-hover);
+  border-color: var(--brand-accent-hover);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  color: #ffffff;
+  transform: translateY(-2px);
 }
 
-/* --- Variation 2: Outline (Secondary/View More) --- */
+/* ─── 4. Secondary Outline Button ─── */
 .btn-outline {
-  background: transparent;
-  border: 1px solid var(--brand-primary);
-  color: var(--brand-primary);
+  background-color: transparent;
+  border: 1px solid var(--btn-border-secondary, var(--bg-border));
+  color: var(--btn-text-secondary, var(--ink-secondary));
 }
 
 .btn-outline:hover {
-  background: var(--color-mist);
+  background-color: var(--btn-bg-secondary-hover);
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+  transform: translateY(-2px);
 }
 
-/* --- Variation 3: CTA (Hero/Footer) --- */
-.btn-cta {
-  background: var(--brand-accent);
-  border: none;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  color: var(--color-white);
-  font-size: 16px;
-  padding: 14px 34px;
-}
-
-.btn-cta:hover {
-  background: var(--brand-royal);
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+/* ─── 5. States (Disabled & Active) ─── */
+.btn-accent:disabled,
+.btn-outline:disabled,
+.btn-solid:disabled,
+.form-submit-btn:disabled {
+  background-color: var(--bg-border);
+  border-color: var(--bg-border);
+  box-shadow: none;
+  color: var(--text-muted);
+  cursor: not-allowed;
+  opacity: 0.65;
+  transform: none;
 }
