@@ -18,10 +18,10 @@ const Header = () => {
   const menuRef = useRef();
 
   // --- Environment Check for Test / Staging Deployments ---
-  const isTestEnvironment = 
+  const isTestEnvironment = process.env.NEXT_PUBLIC_IS_TEST === 'true';
     process.env.NEXT_PUBLIC_NETLIFY_CONTEXT !== 'production' || 
     process.env.NEXT_PUBLIC_GIT_BRANCH === 'test';
-    
+
   // --- Master Navigation Configuration ---
   const navLinks = [
     {

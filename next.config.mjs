@@ -1,9 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* Pass Netlify build variables to Next.js client-side code */
   env: {
-    NEXT_PUBLIC_NETLIFY_CONTEXT: process.env.CONTEXT,
-    NEXT_PUBLIC_GIT_BRANCH: process.env.HEAD || process.env.BRANCH,
+    // Force a explicit true/false check during Netlify build time
+    NEXT_PUBLIC_IS_TEST: 
+      process.env.CONTEXT !== 'production' || 
+      process.env.BRANCH === 'test' || 
+      process.env.HEAD === 'test' ? 'true' : 'false',
   },
 };
 
