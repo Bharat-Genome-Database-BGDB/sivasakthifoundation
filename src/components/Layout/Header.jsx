@@ -3,12 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { supabase } from "@db/supabaseClient";
 import "@styles/header.css";
 
 /**
  * @component Header
- * @description The Master Double-Header Navigation. 
+ * @description The Master Double-Header Navigation for Sivasakthi Science Foundation (SSF).
  */
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -18,11 +17,11 @@ const Header = () => {
   const menuRef = useRef();
 
   // --- Environment Check for Test / Staging Deployments ---
-  const isTestEnvironment = process.env.NEXT_PUBLIC_IS_TEST === 'true';
+  const isTestEnvironment = 
     process.env.NEXT_PUBLIC_NETLIFY_CONTEXT !== 'production' || 
     process.env.NEXT_PUBLIC_GIT_BRANCH === 'test';
 
-  // --- Master Navigation Configuration ---
+  // --- SSF Master Navigation Configuration ---
   const navLinks = [
     {
       label: "About Us",
@@ -43,9 +42,9 @@ const Header = () => {
   ];
 
   const SSF_ECOSYSTEM = [
-    { name: "SSF", url: "https://www.sivasakthifoundation.org" },
+    { name: "SSF", url: "https://www.sivasakthifoundation.org", active: true }, // 👈 Highlighted for SSF repo
     { name: "GenAI", url: "https://genairesearch.org" },
-    { name: "BGDB", url: "https://bharatgenomedatabase.org" },
+    { name: "BGDB", url: "https://bharatgenomedatabase.org", active: false },
     { name: "AarogyaSakthi", url: "https://aarogyasakthi.com" },
   ];
 
@@ -56,14 +55,19 @@ const Header = () => {
 
   return (
     <header className="site-header" ref={menuRef}>
-      {/* 1. Top Bar: Restored Plum Identity */}
+      {/* 1. Top Bar: SSF Ecosystem & Social Links */}
       <div className="top-bar">
         <div className="top-bar-container">
           <div className="top-bar-left">
             <nav className="top-bar-ecosystem">
               {SSF_ECOSYSTEM.map((site, index) => (
                 <div key={site.name} className="nav-wrapper-item">
-                  <a href={site.url} target="_blank" rel="noopener noreferrer" className="nav-item-link">
+                  <a
+                    href={site.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`nav-item-link ${site.active ? 'ecosystem-active' : ''}`}
+                  >
                     {site.name}
                   </a>
                   {index < SSF_ECOSYSTEM.length - 1 && <span className="separator">|</span>}
@@ -72,16 +76,16 @@ const Header = () => {
             </nav>
           </div>
           <div className="top-bar-socials">
-            <a href="https://www.linkedin.com/company/sivasakthi-science-foundation" target="_blank" rel="noopener noreferrer" className="social-link">
+            <a href="https://www.linkedin.com/company/sivasakthi-science-foundation" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="LinkedIn">
               <i className="fab fa-linkedin-in"></i>
             </a>
-            <a href="https://x.com/SSF_handle" target="_blank" rel="noopener noreferrer" className="social-link">
+            <a href="https://x.com/SSF_handle" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="Twitter">
               <i className="fab fa-twitter"></i>
             </a>
-            <a href="https://www.youtube.com/@SivasakthiScienceFoundation" target="_blank" rel="noopener noreferrer" className="social-link">
+            <a href="https://www.youtube.com/@SivasakthiScienceFoundation" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="YouTube">
               <i className="fab fa-youtube"></i>
             </a>
-            <a href="https://www.instagram.com/sivasakthiscience/" target="_blank" rel="noopener noreferrer" className="social-link">
+            <a href="https://www.instagram.com/sivasakthiscience/" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="Instagram">
               <i className="fab fa-instagram"></i>
             </a>
           </div>
@@ -94,7 +98,8 @@ const Header = () => {
           <Link href="/" className="header__brand">
             <img src="/images/global/Logo.png" alt="Sivasakthi Logo" className="brand-logo" />
             <div className="brand-text">
-              <h1 className="brand-title">Sivasakthi Science Foundation™
+              <h1 className="brand-title">
+                Sivasakthi Science Foundation™
                 {/* Render "TEST" badge strictly on non-production / test deployments */}
                 {isTestEnvironment && (
                   <span className="test-badge">TEST</span>
@@ -107,6 +112,7 @@ const Header = () => {
           <button
             className={`mobile-nav-toggle ${menuOpen ? 'active' : ''}`}
             onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle Navigation"
           >
             <span className="hamburger-bar"></span>
             <span className="hamburger-bar"></span>
@@ -124,12 +130,18 @@ const Header = () => {
                       </a>
                       <ul className={`dropdown-menu ${openDropdown === index ? 'show' : ''}`}>
                         {link.dropdown.map((sub, subIdx) => (
-                          <li key={subIdx}><Link href={sub.to} className="dropdown-link-item">{sub.label}</Link></li>
+                          <li key={subIdx}>
+                            <Link href={sub.to} className="dropdown-link-item">
+                              {sub.label}
+                            </Link>
+                          </li>
                         ))}
                       </ul>
                     </>
                   ) : (
-                    <Link href={link.to} className={`nav-link-item ${pathname === link.to ? 'active' : ''}`}>{link.label}</Link>
+                    <Link href={link.to} className={`nav-link-item ${pathname === link.to ? 'active' : ''}`}>
+                      {link.label}
+                    </Link>
                   )}
                 </li>
               ))}
