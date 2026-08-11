@@ -9,7 +9,6 @@ import "@styles/header.css";
 /**
  * @component Header
  * @description The Master Double-Header Navigation. 
- * Reverted to stable structure with original Plum identity and icon support.
  */
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -18,6 +17,11 @@ const Header = () => {
   const pathname = usePathname();
   const menuRef = useRef();
 
+  // --- Environment Check for Test / Staging Deployments ---
+  const isTestEnvironment = 
+    process.env.NEXT_PUBLIC_NETLIFY_CONTEXT !== 'production' || 
+    process.env.NEXT_PUBLIC_GIT_BRANCH === 'test';
+    
   // --- Master Navigation Configuration ---
   const navLinks = [
     {
@@ -90,7 +94,12 @@ const Header = () => {
           <Link href="/" className="header__brand">
             <img src="/images/global/Logo.png" alt="Sivasakthi Logo" className="brand-logo" />
             <div className="brand-text">
-              <h1 className="brand-title">Sivasakthi Science Foundation™</h1>
+              <h1 className="brand-title">Sivasakthi Science Foundation™
+                {/* Render "TEST" badge strictly on non-production / test deployments */}
+                {isTestEnvironment && (
+                  <span className="test-badge">TEST</span>
+                )}
+              </h1>
               <p className="brand-tagline">Advancing Research, Training & Education</p>
             </div>
           </Link>
