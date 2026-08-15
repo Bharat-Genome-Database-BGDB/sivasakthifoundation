@@ -183,10 +183,10 @@ export default function ManageBlogPage() {
         media_url: mediaUrl,
         tags: tagsArray,
         is_published: formData.is_published,
-        updated_at: new Date().toISOString(),
       };
 
       if (formData.id) {
+        // UPDATE existing record by ID
         const { error: updateError } = await supabase
           .from('blogs')
           .update(payload)
@@ -195,6 +195,7 @@ export default function ManageBlogPage() {
         if (updateError) throw updateError;
         setGlobalStatus({ state: 'success', message: `🎉 Successfully updated "${formData.title}"!` });
       } else {
+        // INSERT new record
         const { data, error: insertError } = await supabase
           .from('blogs')
           .insert([payload])
@@ -215,7 +216,7 @@ export default function ManageBlogPage() {
       }, 3000);
 
     } catch (err) {
-      console.error(err);
+      console.error('Blog save error details:', err);
       setGlobalStatus({ state: 'error', message: err.message || 'Failed to save blog post.' });
     } finally {
       setLoading(false);
@@ -229,7 +230,7 @@ export default function ManageBlogPage() {
     >
       <div className="container section-stack">
         
-        {/* Page Header Section (Catalog Model Style) */}
+        {/* Page Header Section */}
         <div className="hero-section text-center">
           <div className="admin-header-actions" style={{ marginBottom: '1rem' }}>
             <button
@@ -248,7 +249,7 @@ export default function ManageBlogPage() {
           </p>
         </div>
 
-        {/* Search & Sort Filter Card (Catalog Model Style) */}
+        {/* Search & Sort Filter Card */}
         <div className="card catalog-search-wrap">
           <div className="form-group admin-combobox-wrap" ref={dropdownRef}>
             <label htmlFor="blog_combobox_input">
@@ -279,7 +280,7 @@ export default function ManageBlogPage() {
                 <button
                   type="button"
                   onClick={handleResetForm}
-                  className="admin-combobox-clear"
+                  className="btn-solid"
                   title="Clear selection to create a new post"
                 >
                   ✕ Clear / New
@@ -480,7 +481,7 @@ export default function ManageBlogPage() {
             <button
               type="button"
               onClick={handleResetForm}
-              className="btn-outline admin-btn-lg"
+              className="btn-outline admin-btn-cancel"
             >
               Clear / New Post
             </button>
