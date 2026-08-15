@@ -1,5 +1,9 @@
 /* src/styles/components/layout.css - Universal Page Layout & Grid Utilities */
 
+.catalog-search-wrap {
+  padding: 24px;
+  margin-bottom: 1.5rem;
+}
 /* ─── 1. Shell Containers & Main Wrappers ─── */
 .container {
   margin: 0 auto;

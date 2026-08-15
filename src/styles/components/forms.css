@@ -1,7 +1,7 @@
 /* src/styles/components/forms.css - Universal Form Component Styles */
 
 /* ─── 1. Form Layout & Groups ─── */
-.contact-form {
+.data-form {
   display: flex;
   flex-direction: column;
   gap: 24px;

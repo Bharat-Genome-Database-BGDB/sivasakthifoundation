@@ -4,7 +4,6 @@ import { useState } from "react";
 import Layout from "@layout/Layout";
 import { supabase } from "@db/supabaseClient";
 import "@styles/main.css";
-import "@styles/components/forms.css";
 
 export default function ContactPage() {
   const [formStatus, setFormStatus] = useState("idle");
@@ -90,7 +89,7 @@ export default function ContactPage() {
           {/* Right Column: Interaction Form Block */}
           <section className="card p-xl">
             <h3 className="card-title">Send a Message</h3>
-            <form onSubmit={handleSubmit} className="contact-form">
+            <form onSubmit={handleSubmit} className="data-form">
               <div className="form-group">
                 <label htmlFor="name">Full Name</label>
                 <input type="text" id="name" name="name" placeholder="Your name" required />

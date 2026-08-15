@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { supabase } from "@db/supabaseClient";
 import "@styles/header.css";
 
 /**
@@ -12,10 +13,45 @@ import "@styles/header.css";
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [user, setUser] = useState(null);
+  const [loadingUser, setLoadingUser] = useState(true);
 
   const pathname = usePathname();
+  const router = useRouter();
   const menuRef = useRef();
 
+  // --- Check Supabase Auth Session ---
+  useEffect(() => {
+    const checkUserSession = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        setUser(session?.user || null);
+      } catch (error) {
+        console.error("Error checking auth session:", error);
+      } finally {
+        setLoadingUser(false);
+      }
+    };
+
+    checkUserSession();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user || null);
+      setLoadingUser(false);
+    });
+
+    return () => {
+      subscription?.unsubscribe();
+    };
+  }, []);
+
+  // --- Sign Out Handler ---
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    setOpenDropdown(null);
+    router.push("/");
+  };
 
   // --- SSF Master Navigation Configuration ---
   const navLinks = [
@@ -34,11 +70,22 @@ const Header = () => {
       to: "#",
       dropdown: [{ label: "Projects & Initiatives", to: "/projects/initiatives" }]
     },
+    { label: "Blogs", to: "/blogs" },
     { label: "Contact Us", to: "/contact" },
   ];
 
+  // --- Logged-In User Dropdown Configuration ---
+  const getUserDropdownConfig = (userEmail) => ({
+    label: userEmail,
+    to: "#",
+    dropdown: [
+      { label: "Message Dashboard", to: "/admin/dashboard" },
+      { label: "Create a Blog", to: "/admin/create-blog" }
+    ]
+  });
+
   const SSF_ECOSYSTEM = [
-    { name: "SSF", url: "https://www.sivasakthifoundation.org", active: true }, // 👈 Highlighted for SSF repo
+    { name: "SSF", url: "https://www.sivasakthifoundation.org", active: true },
     { name: "GenAI", url: "https://genairesearch.org" },
     { name: "BGDB", url: "https://bharatgenomedatabase.org", active: false },
     { name: "AarogyaSakthi", url: "https://aarogyasakthi.com" },
@@ -96,9 +143,6 @@ const Header = () => {
             <div className="brand-text">
               <h1 className="brand-title">
                 Sivasakthi Science Foundation™
-
-                <span className="test-badge">TEST</span>
-
               </h1>
               <p className="brand-tagline">Advancing Research, Training & Education</p>
             </div>
@@ -140,6 +184,54 @@ const Header = () => {
                   )}
                 </li>
               ))}
+
+              {/* Authentication State Integration at the End of Menus */}
+              {!loadingUser && (
+                <li className="nav-item">
+                  {user ? (
+                    /* Logged In: Dynamic User Email Dropdown */
+                    (() => {
+                      const userMenu = getUserDropdownConfig(user.email);
+                      const dropdownKey = 'user-account';
+                      return (
+                        <>
+                          <a
+                            href="#"
+                            className={`nav-link-item ${openDropdown === dropdownKey ? 'active' : ''}`}
+                            onClick={(e) => handleDropdownToggle(dropdownKey, e)}
+                          >
+                            {userMenu.label} <i className="fas fa-chevron-down dropdown-arrow"></i>
+                          </a>
+                          <ul className={`dropdown-menu ${openDropdown === dropdownKey ? 'show' : ''}`}>
+                            {userMenu.dropdown.map((sub, subIdx) => (
+                              <li key={subIdx}>
+                                <Link href={sub.to} className="dropdown-link-item">
+                                  {sub.label}
+                                </Link>
+                              </li>
+                            ))}
+                            <li className="centre">
+                              <button
+                                onClick={handleSignOut}
+                                className="btn-solid"
+                              >
+                                Sign Out
+                              </button>
+                            </li>
+                          </ul>
+                        </>
+                      );
+                    })()
+                  ) : (
+                    /* Not Logged In: Centered Sign In Button */
+                    <div className="btn-center-container">
+                      <Link href="/admin/dashboard" className="btn-solid">
+                        Sign In
+                      </Link>
+                    </div>
+                  )}
+                </li>
+              )}
             </ul>
           </nav>
         </div>

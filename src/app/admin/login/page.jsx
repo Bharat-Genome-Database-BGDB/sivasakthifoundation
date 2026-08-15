@@ -2,7 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/services/supabaseClient'; // Adjust path as needed
+import { supabase } from '@/services/supabaseClient';
+import Layout from '@/components/Layout/Layout';
+import '@styles/main.css';
+import '@styles/components/forms.css';
+import '@styles/components/cards.css';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -10,7 +14,7 @@ export default function AdminLogin() {
   const [emailSent, setEmailSent] = useState(false);
   const [message, setMessage] = useState('');
   const [isError, setIsError] = useState(false);
-  
+
   const router = useRouter();
 
   // If already logged in, redirect straight to dashboard
@@ -69,56 +73,65 @@ export default function AdminLogin() {
   };
 
   return (
-    <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px', fontFamily: 'var(--font-sans, sans-serif)' }}>
-      <div style={{ maxWidth: '420px', width: '100%', padding: '32px', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '12px', boxShadow: '0 4px 16px rgba(0,0,0,0.06)' }}>
-        
-        <h2 style={{ fontSize: '22px', fontWeight: '800', marginBottom: '8px', color: '#0f172a' }}>
-          SSF Admin Access
-        </h2>
-        <p style={{ fontSize: '14px', color: '#64748b', marginBottom: '24px', lineHeight: '1.5' }}>
-          {emailSent ? 'Check your mailbox for your secure login link.' : 'Enter your authorized administrative email address.'}
-        </p>
+    <Layout
+      title="Admin Sign In"
+      description="Secure administrative portal access for Sivasakthi Science Foundation."
+    >
+      <main className="container py-xl">
 
-        {message && (
-          <div style={{ padding: '12px 14px', borderRadius: '8px', fontSize: '13px', marginBottom: '20px', background: isError ? '#fef2f2' : '#f0fdf4', color: isError ? '#991b1b' : '#166534', border: `1px solid ${isError ? '#fca5a5' : '#bbf7d0'}`, lineHeight: '1.4' }}>
-            {message}
-          </div>
-        )}
+        <header className="hero mb-lg">
+          <h1 className="hero-title">SSF Admin Access</h1>
+          <p className="hero-tagline">
+            Enter your authorized administrative email address.
+          </p>
+        </header>
 
-        {!emailSent ? (
-          <form onSubmit={handleSendMagicLink} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-            <div>
-              <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', color: '#475569', marginBottom: '6px', uppercase: 'true' }}>
-                Admin Email Address
-              </label>
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="name@sivasakthifoundation.org"
-                style={{ width: '100%', padding: '11px 14px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '14px', outline: 'none' }}
-              />
-            </div>
-            
+        <section className="card p-xl">
+          <h3 className="card-title">Authentication Portal</h3>
+          
+          <p className="card-body mb-lg">
+            {emailSent ? 'Check your mailbox for your secure login link.' : 'Enter your authorized administrative email address.'}
+          </p>
+
+          {message && (
+            <p className={`form-feedback ${isError ? 'error' : 'success'}`}>
+              {message}
+            </p>
+          )}
+
+          {!emailSent ? (
+            <form onSubmit={handleSendMagicLink} className="data-form">
+              <div className="form-group">
+                <label htmlFor="email">Admin Email Address</label>
+                <input
+                  type="email"
+                  id="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="name@sivasakthifoundation.org"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="submit-btn" 
+              >
+                {loading ? 'Verifying access...' : 'Send Sign-In Link ✉️'}
+              </button>
+            </form>
+          ) : (
             <button
-              type="submit"
-              disabled={loading}
-              style={{ width: '100%', padding: '12px', background: '#0284c7', color: '#ffffff', border: 'none', borderRadius: '8px', fontWeight: '700', fontSize: '14px', cursor: 'pointer', opacity: loading ? 0.7 : 1 }}
+              type="button"
+              onClick={() => { setEmailSent(false); setMessage(''); }}
+              className="submit-btn"
             >
-              {loading ? 'Verifying access...' : 'Send Sign-In Link ✉️'}
+              ← Try a different email
             </button>
-          </form>
-        ) : (
-          <button
-            type="button"
-            onClick={() => { setEmailSent(false); setMessage(''); }}
-            style={{ width: '100%', padding: '10px', background: '#f1f5f9', color: '#475569', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}
-          >
-            ← Try a different email
-          </button>
-        )}
-      </div>
-    </div>
+          )}
+        </section>
+      </main>
+    </Layout>
   );
 }

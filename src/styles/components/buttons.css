@@ -93,3 +93,19 @@
   opacity: 0.65;
   transform: none;
 }
+
+/* --- Centered Sign-Out Button Styling --- */
+.nav-action-center-item {
+  border-top: 1px solid var(--bg-border, #e2e8f0);
+  margin-top: 6px;
+  padding-top: 8px;
+  list-style: none;
+  width: 100%;
+}
+
+.btn-center-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 4px 8px;
+}
