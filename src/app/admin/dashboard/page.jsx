@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/services/supabaseClient'; // Adjust path if needed
 import '@styles/main.css';
-import '@styles/admin.css';
+import '@styles/pages/admin.css';
 
 // Organization Theme Map
 const ORG_THEMES = {
