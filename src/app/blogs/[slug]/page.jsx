@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { supabase } from '@db/supabaseClient';
 import Layout from '@components/Layout/Layout';
 import '@styles/main.css';
-// import '@styles/pages/blog.css';
 
 export default function SingleBlogPage() {
   const params = useParams();
@@ -64,8 +63,8 @@ export default function SingleBlogPage() {
   if (loading) {
     return (
       <Layout title="Loading Article...">
-        <div className="blog-page-container blog-loading-state">
-          <p className="blog-hero-desc">Loading publication details...</p>
+        <div className="container">
+          <p className="hero-desc">Loading publication details...</p>
         </div>
       </Layout>
     );
@@ -74,15 +73,16 @@ export default function SingleBlogPage() {
   if (!blog) {
     return (
       <Layout title="Article Not Found">
-        <div className="blog-page-container blog-notfound-state">
-          <h1 className="blog-hero-title">Article Not Found</h1>
-          <p className="blog-hero-desc blog-notfound-text">
+        <header className="hero mb-lg">
+          <h1 className="hero-title">Article Not Found</h1>
+          <p className="hero-tagline">
             The article you are looking for might have been moved or is no longer published.
           </p>
-          <button onClick={() => router.push('/blog')} className="btn-solid">
+          <button onClick={() => router.push('/blogs')} className="btn-solid">
             ← Back to All Articles
           </button>
-        </div>
+        </header>
+
       </Layout>
     );
   }
@@ -90,7 +90,7 @@ export default function SingleBlogPage() {
   return (
     <Layout title={blog.title} description={blog.subtitle || blog.title}>
       <div className="blog-page-container">
-        
+
         {/* Navigation Breadcrumb */}
         <div className="blog-breadcrumb-row">
           <Link href="/blog" className="blog-back-link">
@@ -100,7 +100,7 @@ export default function SingleBlogPage() {
 
         {/* Article Header Card */}
         <article className="card blog-article-card">
-          
+
           {blog.tags && blog.tags.length > 0 && (
             <div className="blog-tags-container">
               {blog.tags.map((tag, idx) => (
