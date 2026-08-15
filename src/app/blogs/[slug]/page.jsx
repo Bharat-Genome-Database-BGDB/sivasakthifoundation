@@ -150,7 +150,7 @@ export default function SingleBlogPage() {
               <h2 className="blog-rotator-title">
                 Explore Other Articles
               </h2>
-              <Link href="/blog" className="blog-back-link">
+              <Link href="/blogs" className="blog-back-link">
                 View All →
               </Link>
             </div>
@@ -168,13 +168,13 @@ export default function SingleBlogPage() {
                       {new Date(item.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                     </span>
                     <h4 className="blog-rotator-item-title">
-                      <Link href={`/blog/${item.slug}`}>
+                      <Link href={`/blogs/${item.slug}`}>
                         {item.title}
                       </Link>
                     </h4>
                   </div>
                   <div className="blog-rotator-footer">
-                    <Link href={`/blog/${item.slug}`} className="blog-back-link blog-footer-link-small">
+                    <Link href={`/blogs/${item.slug}`} className="blog-back-link blog-footer-link-small">
                       Read Article →
                     </Link>
                   </div>
