@@ -7,35 +7,35 @@ export default function InitiativesPage() {
   const initiatives = [
     {
       badge: "Track 01",
-      title: "Bioinformatics & Genomics Research",
-      bio: "We focus on unlocking the genetic profiles of indigenous species by bridging raw processing infrastructure with modern analytics tools. This vertical powers open-source mapping pipelines, providing structural data points crucial for ecological monitoring and regional biological discovery.",
+      title: "BioHeritage",
+      bio: "Dedicated to the genomic preservation, characterization, and cataloging of native and endemic biodiversity across the Indian subcontinent. Through open-access multi-omics frameworks, automated annotation pipelines, and computational databases, the program safeguards biological heritage to empower evolutionary research and targeted conservation.",
       items: [
-        "High-Throughput Sequencing Maps",
-        "Indigenous Species Archiving",
-        "Open-Access Data Infrastructures",
-        "Comparative Phylogeny Tools"
+        "Biodiversity Genomics",
+        "Endemic Species",
+        "Evolutionary Multi-Omics",
+        "Open Science Databases"
       ]
     },
     {
       badge: "Track 02",
-      title: "AI & Deep Learning Verticals",
-      bio: "Applying advanced computational models to complex biological datasets. By leveraging targeted machine learning architectures and deep neural patterns, this initiative speeds up predictive sequence analysis, structural modeling, and translational health informatics.",
+      title: "AarogyaSakthi",
+      bio: "Harnessing translational genomics, microbiome profiling, and artificial intelligence to pioneer precision healthcare and targeted wellness solutions. This initiative focuses on unraveling population-specific disease markers, gut-microbiome dynamics, and preventative health diagnostics tailored to native demographic contexts.",
       items: [
-        "Predictive Neural Networks",
-        "Automated Feature Annotation",
-        "Algorithm Pipeline Validation",
-        "Scalable Inference Frameworks"
+        "Precision Medicine",
+        "Microbiome Therapeutics",
+        "Translational Omics",
+        "Preventative Health AI"
       ]
     },
     {
       badge: "Track 03",
-      title: "Incubator Research Fund",
-      bio: "Supporting innovative ideas and independent scientific inquiries. Our program offers seed funding, cloud compute resources, and structured academic mentorship channels to accelerate early-stage projects into robust, peer-reviewed realities.",
+      title: "VidyaSakthi",
+      bio: "Democratizing computational life sciences education through hands-on fellowships, specialized Master’s tracks, and open-access scientific resources. The initiative trains the next generation of bioinformaticians, data scientists, and computational biologists through interdisciplinary mentorship and direct research immersion.",
       items: [
-        "Seed Project Grants",
-        "Compute Cluster Allocation",
-        "Milestone-Driven Fellowships",
-        "Academic Publishing Support"
+        "Bioinformatics Capacity",
+        "Research Fellowships",
+        "STEM Democratization",
+        "Scientific Pedagogy"
       ]
     }
   ];
@@ -61,7 +61,7 @@ export default function InitiativesPage() {
               {/* Feature List Grid */}
               <ul className="card-list">
                 {item.items.map((list, i) => (
-                  <li key={i} >
+                  <li key={i}>
                     <span className="text-brand-violet">✓</span> {list}
                   </li>
                 ))}
