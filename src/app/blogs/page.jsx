@@ -167,7 +167,7 @@ export default function BlogListingPage() {
 
                     {/* Title */}
                     <h3 className="card-title" style={{ fontSize: '1.25rem', marginBottom: '0.5rem', lineHeight: '1.4' }}>
-                      <Link href={`/blog/${blog.slug}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                      <Link href={`/blogs/${blog.slug}`} style={{ color: 'inherit', textDecoration: 'none' }}>
                         {blog.title}
                       </Link>
                     </h3>
@@ -193,7 +193,7 @@ export default function BlogListingPage() {
 
                   <div>
                     <Link
-                      href={`/blog/${blog.slug}`}
+                      href={`/blogs/${blog.slug}`}
                       className="btn-solid btn-full"
                       style={{ textAlign: 'center', display: 'block', textDecoration: 'none' }}
                     >
