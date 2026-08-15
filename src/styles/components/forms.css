@@ -69,3 +69,135 @@
   border: 1px solid #86efac;
   color: #166534;
 }
+
+/* src/styles/admin.css  */
+.admin-combobox-wrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.admin-combobox-input-group {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.admin-combobox-input {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 0.75rem; /* Space for arrow icon */
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  font-size: 0.95rem;
+  background-color: #ffffff;
+}
+
+.admin-combobox-arrow {
+  position: absolute;
+  right: 0.75rem;
+  color: #64748b;
+  pointer-events: none;
+  font-size: 0.8rem;
+}
+
+.admin-combobox-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  max-height: 250px;
+  overflow-y: auto;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  z-index: 50;
+  margin: 0;
+  padding: 0.5rem 0;
+  list-style: none;
+}
+
+.admin-combobox-item {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.15s ease;
+}
+
+.admin-combobox-item:hover {
+  background-color: #f1f5f9;
+}
+
+.admin-combobox-item-name {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.admin-combobox-item-sci {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #64748b;
+}
+
+.admin-combobox-no-results {
+  padding: 0.75rem 1rem;
+  color: #94a3b8;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.admin-combobox-clear {
+  padding: 0.75rem 1rem;
+  background-color: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.admin-combobox-clear:hover {
+  background-color: #e2e8f0;
+  color: #1e293b;
+}
+
+.admin-action-bar {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Checkbox Groups */
+.admin-checkbox-group {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.admin-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.admin-resource-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 0.5rem;
+}

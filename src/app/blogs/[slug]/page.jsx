@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { supabase } from '@db/supabaseClient';
 import Layout from '@components/Layout/Layout';
 import '@styles/main.css';
-import '@styles/pages/blog.css';
+// import '@styles/pages/blog.css';
 
 export default function SingleBlogPage() {
   const params = useParams();

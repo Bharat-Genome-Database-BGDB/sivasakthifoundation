@@ -6,7 +6,6 @@ import dynamic from 'next/dynamic';
 import { supabase } from '@db/supabaseClient';
 import Layout from '@components/Layout/Layout';
 import '@styles/main.css';
-import '@styles/pages/admin.css';
 import 'react-quill-new/dist/quill.snow.css';
 
 const INITIAL_BLOG_STATE = {
@@ -24,7 +23,7 @@ const INITIAL_BLOG_STATE = {
 
 export default function ManageBlogPage() {
   const router = useRouter();
-  
+
   // Combobox & Existing Blogs State
   const [blogList, setBlogList] = useState([]);
   const [comboboxSearchText, setComboboxSearchText] = useState('');
@@ -228,40 +227,25 @@ export default function ManageBlogPage() {
       title={formData.id ? 'Edit Blog | Admin Portal' : 'Create Blog | Admin Portal'}
       description="Publish and manage official research articles, announcements, and network updates."
     >
-      <div className="container section-stack">
-        
-        {/* Page Header Section */}
-        <div className="hero-section text-center">
-          <div className="admin-header-actions" style={{ marginBottom: '1rem' }}>
-            <button
-              type="button"
-              onClick={() => router.push('/admin/dashboard')}
-              className="btn-outline admin-btn-sm"
-            >
-              ← Back to Dashboard
-            </button>
-          </div>
-          <h1 className="hero-title">
-            {formData.id ? 'Edit Blog Post' : 'Create New Blog Post'}
-          </h1>
-          <p className="card-body margin-auto max-w-700">
-            Draft and distribute official research articles, multi-omics discoveries, and institutional announcements across the Sivasakthi Science Foundation ecosystem.
-          </p>
-        </div>
+      <main className="container py-xl">
 
+        <header className="hero mb-lg">
+          <h4 className="card-title">Add a Blog</h4>
+        </header>
         {/* Search & Sort Filter Card */}
-        <div className="card catalog-search-wrap">
-          <div className="form-group admin-combobox-wrap" ref={dropdownRef}>
-            <label htmlFor="blog_combobox_input">
-              Search or Select Existing Blog Post to Edit:
-            </label>
-            
+        {/* Searchable Custom Combobox Selector Card */}
+        <div className="card admin-select-card">
+          <label htmlFor="combobox_input" className="admin-select-label">
+            Search or Select Existing Blog Post to Edit:
+          </label>
+
+          <div className="admin-combobox-wrap" ref={dropdownRef}>
             <div className="admin-combobox-input-group">
               <input
                 id="blog_combobox_input"
                 type="text"
-                className="form-group input admin-combobox-input"
-                placeholder="🔍 Type title or click arrow to choose existing post..."
+                className="admin-combobox-input"
+                placeholder="🔍 Click arrow on right or type to search blog posts..."
                 value={comboboxSearchText}
                 onFocus={() => setIsDropdownOpen(true)}
                 onChange={(e) => {
@@ -280,7 +264,7 @@ export default function ManageBlogPage() {
                 <button
                   type="button"
                   onClick={handleResetForm}
-                  className="btn-solid"
+                  className="admin-combobox-clear"
                   title="Clear selection to create a new post"
                 >
                   ✕ Clear / New
@@ -321,13 +305,13 @@ export default function ManageBlogPage() {
 
         {/* Main Curation Form */}
         <form onSubmit={handleSubmit} className="card admin-form-card">
-          
+
           {/* SECTION 1: BASIC INFORMATION */}
           <div>
             <h3 className="admin-section-title">
               1. Article Identification & Metadata
             </h3>
-            
+
             <div className="admin-grid-3">
               <div className="form-group">
                 <label htmlFor="title" className="admin-form-label">Blog Title *</label>
@@ -384,7 +368,7 @@ export default function ManageBlogPage() {
             <h3 className="admin-section-title">
               2. Media Display & Upload
             </h3>
-            
+
             <div className="admin-grid-taxonomy">
               <div className="form-group">
                 <label htmlFor="media_type" className="admin-form-label">Media Display Format</label>
@@ -488,7 +472,7 @@ export default function ManageBlogPage() {
           </div>
 
         </form>
-      </div>
+      </main>
     </Layout>
   );
 }

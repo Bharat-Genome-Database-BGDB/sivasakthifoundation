@@ -205,3 +205,66 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* Dropdown Species Selector Card */
+.admin-select-card {
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  background-color: var(--slate-light, #f8fafc);
+}
+
+.admin-select-label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.admin-select-input {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+}
+
+* Main Form Scaffolding */
+.admin-form-card {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.admin-section-title {
+  font-size: 1.15rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 0.5rem;
+  color: #1e293b;
+}
+
+.admin-form-label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.admin-input-text {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+}
+
+.admin-input-text.error {
+  border-color: #ef4444;
+}
+
+.admin-inline-validation {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.admin-inline-validation.taken { color: #dc2626; }
+.admin-inline-validation.available { color: #16a34a; }
+.admin-inline-validation.checking { color: #64748b; }
