@@ -68,7 +68,7 @@
 
 /* ─── 4. Secondary Outline Button ─── */
 .btn-outline {
-  background-color: transparent;
+  background-color: #d1c5e4;
   border: 1px solid var(--btn-border-secondary, var(--bg-border));
   color: var(--btn-text-secondary, var(--ink-secondary));
 }

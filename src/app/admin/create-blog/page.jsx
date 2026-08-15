@@ -28,7 +28,7 @@ export default function ManageBlogPage() {
   // Combobox & Existing Blogs State
   const [blogList, setBlogList] = useState([]);
   const [comboboxSearchText, setComboboxSearchText] = useState('');
-  const [isDropdownOpen, setIsDropdownOpen] = useState('');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   // Form & Status State
@@ -133,7 +133,6 @@ export default function ManageBlogPage() {
     setFormData((prev) => {
       const updated = { ...prev, [id]: type === 'checkbox' ? checked : value };
 
-      // Auto-generate slug from title only if it's a new post or user wants auto-sync
       if (id === 'title' && !prev.id) {
         updated.slug = value
           .toLowerCase()
@@ -153,7 +152,6 @@ export default function ManageBlogPage() {
     try {
       let mediaUrl = formData.media_url;
 
-      // 1. Upload new media to Supabase 'blog-media' bucket if a file was selected
       if (mediaFile) {
         const fileExt = mediaFile.name.split('.').pop();
         const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
@@ -171,7 +169,6 @@ export default function ManageBlogPage() {
         mediaUrl = publicData.publicUrl;
       }
 
-      // 2. Format hashtags/tags string into PostgreSQL text[] array
       const tagsArray = formData.tagsInput
         ? formData.tagsInput.split(',').map((tag) => tag.trim()).filter(Boolean)
         : [];
@@ -190,7 +187,6 @@ export default function ManageBlogPage() {
       };
 
       if (formData.id) {
-        // UPDATE existing blog
         const { error: updateError } = await supabase
           .from('blogs')
           .update(payload)
@@ -199,7 +195,6 @@ export default function ManageBlogPage() {
         if (updateError) throw updateError;
         setGlobalStatus({ state: 'success', message: `🎉 Successfully updated "${formData.title}"!` });
       } else {
-        // INSERT new blog
         const { data, error: insertError } = await supabase
           .from('blogs')
           .insert([payload])
@@ -232,43 +227,40 @@ export default function ManageBlogPage() {
       title={formData.id ? 'Edit Blog | Admin Portal' : 'Create Blog | Admin Portal'}
       description="Publish and manage official research articles, announcements, and network updates."
     >
-      <main className="container py-xl">
+      <div className="container section-stack">
         
-        {/* Dashboard Header */}
-        <div className="dashboard-header">
-          <div>
-            <h1 className="dashboard-title">
-              {formData.id ? 'Edit Blog Post' : 'Create New Blog Post'}
-            </h1>
-            <p className="dashboard-subtitle">
-              Draft and distribute articles across the Sivasakthi Science Foundation ecosystem.
-            </p>
-          </div>
-          <div className="user-badge-container">
-            <span className="user-badge">Admin Access Verified</span>
+        {/* Page Header Section (Catalog Model Style) */}
+        <div className="hero-section text-center">
+          <div className="admin-header-actions" style={{ marginBottom: '1rem' }}>
             <button
               type="button"
               onClick={() => router.push('/admin/dashboard')}
-              className="action-btn archive"
+              className="btn-outline admin-btn-sm"
             >
-              Back to Dashboard
+              ← Back to Dashboard
             </button>
           </div>
+          <h1 className="hero-title">
+            {formData.id ? 'Edit Blog Post' : 'Create New Blog Post'}
+          </h1>
+          <p className="card-body margin-auto max-w-700">
+            Draft and distribute official research articles, multi-omics discoveries, and institutional announcements across the Sivasakthi Science Foundation ecosystem.
+          </p>
         </div>
 
-        {/* Searchable Custom Combobox Selector for Editing Existing Blogs */}
-        <div className="card p-xl">
-          <label htmlFor="blog_combobox_input" className="admin-select-label">
-            Search or Select Existing Blog Post to Edit:
-          </label>
-          
-          <div className="admin-combobox-wrap" ref={dropdownRef}>
+        {/* Search & Sort Filter Card (Catalog Model Style) */}
+        <div className="card catalog-search-wrap">
+          <div className="form-group admin-combobox-wrap" ref={dropdownRef}>
+            <label htmlFor="blog_combobox_input">
+              Search or Select Existing Blog Post to Edit:
+            </label>
+            
             <div className="admin-combobox-input-group">
               <input
                 id="blog_combobox_input"
                 type="text"
-                className="admin-combobox-input"
-                placeholder="🔍 Click arrow on right or type to search existing posts..."
+                className="form-group input admin-combobox-input"
+                placeholder="🔍 Type title or click arrow to choose existing post..."
                 value={comboboxSearchText}
                 onFocus={() => setIsDropdownOpen(true)}
                 onChange={(e) => {
@@ -319,76 +311,85 @@ export default function ManageBlogPage() {
           </div>
         </div>
 
-        {/* Global Feedback Banner */}
+        {/* Global Feedback Box */}
         {globalStatus.message && (
           <div className={`admin-status-box ${globalStatus.state}`}>
             {globalStatus.message}
           </div>
         )}
 
-        {/* Form Card Container */}
-        <div className="controls-card">
-          <form onSubmit={handleSubmit} className="cards-container">
+        {/* Main Curation Form */}
+        <form onSubmit={handleSubmit} className="card admin-form-card">
+          
+          {/* SECTION 1: BASIC INFORMATION */}
+          <div>
+            <h3 className="admin-section-title">
+              1. Article Identification & Metadata
+            </h3>
             
-            {/* Title */}
-            <div className="control-group">
-              <label htmlFor="title" className="control-label">Blog Title *</label>
-              <input
-                id="title"
-                type="text"
-                required
-                className="control-input"
-                placeholder="e.g., Breakthroughs in Plant Genomic Sequencing"
-                value={formData.title}
-                onChange={handleChange}
-              />
+            <div className="admin-grid-3">
+              <div className="form-group">
+                <label htmlFor="title" className="admin-form-label">Blog Title *</label>
+                <input
+                  id="title"
+                  type="text"
+                  required
+                  className="admin-input-text"
+                  placeholder="e.g., Breakthroughs in Plant Genomic Sequencing"
+                  value={formData.title}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="slug" className="admin-form-label">URL Slug</label>
+                <input
+                  id="slug"
+                  type="text"
+                  required
+                  className="admin-input-text"
+                  value={formData.slug}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="author" className="admin-form-label">Author / Editorial Team</label>
+                <input
+                  id="author"
+                  type="text"
+                  className="admin-input-text"
+                  value={formData.author}
+                  onChange={handleChange}
+                />
+              </div>
             </div>
 
-            {/* URL Slug Preview */}
-            <div className="control-group">
-              <label htmlFor="slug" className="control-label">URL Slug</label>
-              <input
-                id="slug"
-                type="text"
-                required
-                className="control-input"
-                value={formData.slug}
-                onChange={handleChange}
-              />
-            </div>
-
-            {/* Sub-Heading */}
-            <div className="control-group">
-              <label htmlFor="subtitle" className="control-label">Sub-Heading (Optional)</label>
+            <div className="form-group">
+              <label htmlFor="subtitle" className="admin-form-label">Sub-Heading (Optional)</label>
               <input
                 id="subtitle"
                 type="text"
-                className="control-input"
+                className="admin-input-text"
                 placeholder="A brief summary sentence displayed below the title"
                 value={formData.subtitle}
                 onChange={handleChange}
               />
             </div>
+          </div>
 
-            {/* Author Name */}
-            <div className="control-group">
-              <label htmlFor="author" className="control-label">Author / Editorial Team</label>
-              <input
-                id="author"
-                type="text"
-                className="control-input"
-                value={formData.author}
-                onChange={handleChange}
-              />
-            </div>
-
-            {/* Media Options */}
+          {/* SECTION 2: MEDIA FORMAT & UPLOAD */}
+          <div>
+            <h3 className="admin-section-title">
+              2. Media Display & Upload
+            </h3>
+            
             <div className="admin-grid-taxonomy">
-              <div className="control-group">
-                <label htmlFor="media_type" className="control-label">Media Display Format</label>
+              <div className="form-group">
+                <label htmlFor="media_type" className="admin-form-label">Media Display Format</label>
                 <select
                   id="media_type"
-                  className="control-select"
+                  className="admin-input-text"
                   value={formData.media_type}
                   onChange={handleChange}
                 >
@@ -397,39 +398,49 @@ export default function ManageBlogPage() {
                 </select>
               </div>
 
-              <div className="control-group">
-                <label className="control-label">Upload Image / Banner (Supabase Bucket)</label>
+              <div className="form-group">
+                <label className="admin-form-label">Upload Image / Banner (Supabase Bucket)</label>
                 <input
                   type="file"
                   accept="image/*"
                   onChange={(e) => setMediaFile(e.target.files[0])}
-                  className="control-input"
+                  className="admin-input-text"
                 />
                 {formData.media_url && !mediaFile && (
-                  <span className="admin-preview-info-url" style={{ marginTop: '6px', display: 'block' }}>
-                    Current Media: {formData.media_url}
+                  <span className="admin-preview-info-url">
+                    Active Media: {formData.media_url}
                   </span>
                 )}
               </div>
             </div>
+          </div>
 
-            {/* Hashtags */}
-            <div className="control-group">
-              <label htmlFor="tagsInput" className="control-label">Hashtags / Tags (Comma separated)</label>
+          {/* SECTION 3: TAGS */}
+          <div>
+            <h3 className="admin-section-title">
+              3. Hashtags & Categories
+            </h3>
+            <div className="form-group">
+              <label htmlFor="tagsInput" className="admin-form-label">Hashtags / Tags (Comma separated)</label>
               <input
                 id="tagsInput"
                 type="text"
-                className="control-input"
+                className="admin-input-text"
                 placeholder="Genomics, AI, Research, Foundation"
                 value={formData.tagsInput}
                 onChange={handleChange}
               />
             </div>
+          </div>
 
-            {/* WYSIWYG Rich Text Editor */}
-            <div className="control-group">
-              <label className="control-label" style={{ marginBottom: '8px' }}>
-                Description / Body Content *
+          {/* SECTION 4: WYSIWYG EDITOR */}
+          <div>
+            <h3 className="admin-section-title">
+              4. Description & Body Content
+            </h3>
+            <div className="form-group">
+              <label className="admin-form-label">
+                Article Body Content *
               </label>
               <div className="admin-quill-wrapper">
                 <ReactQuill
@@ -441,42 +452,42 @@ export default function ManageBlogPage() {
                 />
               </div>
             </div>
+          </div>
 
-            {/* Publication Toggle */}
-            <div className="admin-checkbox-group">
-              <label className="admin-checkbox-label">
-                <input
-                  id="is_published"
-                  type="checkbox"
-                  checked={formData.is_published}
-                  onChange={handleChange}
-                />
-                <span>Publish Immediately to Public Blog Feed</span>
-              </label>
-            </div>
+          {/* SECTION 5: PUBLICATION TOGGLE */}
+          <div className="admin-checkbox-group">
+            <label className="admin-checkbox-label">
+              <input
+                id="is_published"
+                type="checkbox"
+                checked={formData.is_published}
+                onChange={handleChange}
+              />
+              <span>Publish Immediately to Public Blog Feed</span>
+            </label>
+          </div>
 
-            {/* Action Bar */}
-            <div className="action-bar" style={{ justifyContent: 'flex-end', borderTop: '1px solid var(--slate-border)', marginTop: '24px', paddingTop: '20px' }}>
-              <button
-                type="button"
-                onClick={handleResetForm}
-                className="action-btn archive"
-              >
-                Clear / New Post
-              </button>
-              <button
-                type="submit"
-                disabled={loading}
-                className="action-btn reply"
-              >
-                {loading ? 'Saving...' : formData.id ? 'Update Blog Post 🚀' : 'Publish Blog Post 🚀'}
-              </button>
-            </div>
+          {/* ACTION BUTTONS */}
+          <div className="admin-action-bar">
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn-solid admin-btn-lg"
+            >
+              {loading ? 'Saving...' : formData.id ? 'Update Blog Post 🚀' : 'Publish Blog Post 🚀'}
+            </button>
 
-          </form>
-        </div>
+            <button
+              type="button"
+              onClick={handleResetForm}
+              className="btn-outline admin-btn-lg"
+            >
+              Clear / New Post
+            </button>
+          </div>
 
-      </main>
+        </form>
+      </div>
     </Layout>
   );
 }
