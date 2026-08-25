@@ -1,6 +1,7 @@
 // src/app/projects/initiatives/page.jsx
 'use client';
 import Layout from "@layout/Layout";
+import Link from "next/link";
 import "@styles/main.css";
 
 export default function InitiativesPage() {
@@ -8,6 +9,7 @@ export default function InitiativesPage() {
     {
       badge: "Track 01",
       title: "BioHeritage",
+      link: "/blogs/decoding-india-s-biodiversity-safeguarding-our-living-heritage-for-future-generations",
       bio: "Dedicated to the genomic preservation, characterization, and cataloging of native and endemic biodiversity across the Indian subcontinent. Through open-access multi-omics frameworks, automated annotation pipelines, and computational databases, the program safeguards biological heritage to empower evolutionary research and targeted conservation.",
       items: [
         "Biodiversity Genomics",
@@ -19,6 +21,7 @@ export default function InitiativesPage() {
     {
       badge: "Track 02",
       title: "AarogyaSakthi",
+      // No link property for this one, so it renders normally
       bio: "Harnessing translational genomics, microbiome profiling, and artificial intelligence to pioneer precision healthcare and targeted wellness solutions. This initiative focuses on unraveling population-specific disease markers, gut-microbiome dynamics, and preventative health diagnostics tailored to native demographic contexts.",
       items: [
         "Precision Medicine",
@@ -55,7 +58,18 @@ export default function InitiativesPage() {
           {initiatives.map((item, idx) => (
             <div key={idx} className="card p-xl">
               <span className="badge">{item.badge}</span>
-              <h2 className="card-title">{item.title}</h2>
+
+              {/* Conditionally render the title as a Link if `item.link` exists */}
+              <h2 className="card-title">
+                {item.link ? (
+                  <Link href={item.link} title="Click link to learn more">
+                    {item.title}
+                  </Link>
+                ) : (
+                  item.title
+                )}
+              </h2>
+
               <p className="card-body">{item.bio}</p>
 
               {/* Feature List Grid */}
