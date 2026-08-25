@@ -132,7 +132,11 @@ export default function SingleBlogPage() {
 
           {blog.media_url && (
             <div className="blog-hero-media">
-              <img src={blog.media_url} alt={blog.title} />
+              <img 
+                src={blog.media_url} 
+                alt={blog.title} 
+                style={{ width: '100%', height: 'auto', maxHeight: 'none', objectFit: 'initial' }}
+              />
             </div>
           )}
 

@@ -220,19 +220,27 @@
     color: var(--slate-muted, #64748b);
 }
 
+/* --- Standard Image Card Layout (Fixes vertical/portrait images like book covers) --- */
 .blog-hero-media {
     width: 100%;
-    max-height: 450px;
-    overflow: hidden;
-    border-radius: 12px;
-    margin-bottom: 36px;
-    background: var(--slate-light, #f1f5f9);
+    max-width: 450px; /* Controls how large the card appears on the page */
+    margin: 0 auto 36px auto; /* Centers the card horizontally with spacing below */
+    background: transparent; /* Removes background box constraints */
+    border-radius: 0;
+    overflow: visible;
+    border: none;
+    box-shadow: none;
+    display: flex;
+    justify-content: center;
 }
 
 .blog-hero-media img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto; /* Forces the browser to calculate height naturally based on the image aspect ratio */
+    max-height: none; /* Removes any height limits */
+    object-fit: unset; /* Lets the native image proportions render fully */
+    border-radius: 12px; /* Keeps nice rounded corners on the image itself */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08); /* Optional subtle shadow for depth */
     display: block;
 }
 
@@ -388,4 +396,44 @@
     padding: 12px 16px;
     background: var(--slate-light, #f8fafc);
     border-top: 1px solid var(--slate-border, #cbd5e1);
+}
+
+/* --- Article Media Layout Variations --- */
+
+.blog-hero-media {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+    margin-bottom: 36px;
+    background: var(--slate-light, #f1f5f9);
+}
+
+/* Full Banner Style (Default) */
+.blog-hero-media.banner-image-layout {
+    max-height: 450px;
+}
+
+.blog-hero-media.banner-image-layout img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Standard Image Card Style */
+.blog-hero-media.standard-image-card {
+    max-width: 600px; /* Constrains width so it looks like a card */
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid var(--slate-border, #cbd5e1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.blog-hero-media.standard-image-card img {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: contain; /* Keeps standard cards from getting cropped awkwardly */
+    display: block;
+    margin: 0 auto;
 }
