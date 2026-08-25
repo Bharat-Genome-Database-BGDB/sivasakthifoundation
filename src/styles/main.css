@@ -7,8 +7,8 @@
 @import './components/cards.css';
 @import './components/hero.css';
 @import './components/forms.css';
-/* @import './pages/admin.css'; */
-/* @import './pages/blog.css'; */
+@import './pages/admin.css';
+@import './pages/blog.css';
 
 /* Global Resets & Base Styles */
 html {
