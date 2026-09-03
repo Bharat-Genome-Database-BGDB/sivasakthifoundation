@@ -15,6 +15,7 @@ const Header = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
   const [user, setUser] = useState(null);
   const [loadingUser, setLoadingUser] = useState(true);
+  // const isFounderOrAdmin = ['Founder', 'admin', 'director'].includes(userRole);
 
   const pathname = usePathname();
   const router = useRouter();

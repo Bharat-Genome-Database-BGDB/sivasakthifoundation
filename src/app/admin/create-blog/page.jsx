@@ -21,6 +21,9 @@ const INITIAL_BLOG_STATE = {
   is_published: true,
 };
 
+const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/heic', 'image/heif'];
+const MAX_FILE_SIZE = 3 * 1024 * 1024; // 3MB
+
 export default function ManageBlogPage() {
   const router = useRouter();
 
@@ -33,6 +36,8 @@ export default function ManageBlogPage() {
   // Form & Status State
   const [formData, setFormData] = useState(INITIAL_BLOG_STATE);
   const [mediaFile, setMediaFile] = useState(null);
+  const [mediaPreviewUrl, setMediaPreviewUrl] = useState('');
+  const [mediaValidation, setMediaValidation] = useState({ state: 'idle', message: '' });
   const [loading, setLoading] = useState(false);
   const [globalStatus, setGlobalStatus] = useState({ state: 'idle', message: '' });
 
@@ -77,7 +82,6 @@ export default function ManageBlogPage() {
     }
   };
 
-  // Filter blog list dynamically as user types
   const filteredBlogs = blogList.filter((item) =>
     item.title.toLowerCase().includes(comboboxSearchText.toLowerCase())
   );
@@ -90,6 +94,9 @@ export default function ManageBlogPage() {
 
   const loadBlogData = async (id) => {
     setGlobalStatus({ state: 'idle', message: '' });
+    setMediaValidation({ state: 'idle', message: '' });
+    setMediaFile(null);
+    setMediaPreviewUrl('');
 
     try {
       const { data, error } = await supabase
@@ -123,6 +130,8 @@ export default function ManageBlogPage() {
     setComboboxSearchText('');
     setFormData(INITIAL_BLOG_STATE);
     setMediaFile(null);
+    setMediaPreviewUrl('');
+    setMediaValidation({ state: 'idle', message: '' });
     setGlobalStatus({ state: 'idle', message: 'Form cleared. Ready to draft new post.' });
   };
 
@@ -140,6 +149,53 @@ export default function ManageBlogPage() {
       }
 
       return updated;
+    });
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) {
+      setMediaFile(null);
+      setMediaPreviewUrl('');
+      setMediaValidation({ state: 'idle', message: '' });
+      return;
+    }
+
+    // MIME type check
+    const isValidType = ALLOWED_MIME_TYPES.includes(file.type.toLowerCase()) ||
+      ['jpg', 'jpeg', 'png', 'heic', 'heif'].includes(file.name.split('.').pop().toLowerCase());
+
+    if (!isValidType) {
+      setMediaFile(null);
+      setMediaPreviewUrl('');
+      e.target.value = '';
+      setMediaValidation({
+        state: 'error',
+        message: '❌ Rejected: Unsupported file type. Only JPEG, PNG, HEIC, and HEIF files are approved.'
+      });
+      return;
+    }
+
+    // File size check (3MB limit)
+    if (file.size > MAX_FILE_SIZE) {
+      setMediaFile(null);
+      setMediaPreviewUrl('');
+      e.target.value = '';
+      const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+      setMediaValidation({
+        state: 'error',
+        message: `❌ Rejected: File size (${sizeMB} MB) exceeds the 3 MB threshold.`
+      });
+      return;
+    }
+
+    // Approved: stage file and create browser-local thumbnail preview
+    const sizeKB = (file.size / 1024).toFixed(0);
+    setMediaFile(file);
+    setMediaPreviewUrl(URL.createObjectURL(file));
+    setMediaValidation({
+      state: 'success',
+      message: `✓ Approved: ${file.name} (${sizeKB} KB) meets formatting and size requirements.`
     });
   };
 
@@ -185,7 +241,6 @@ export default function ManageBlogPage() {
       };
 
       if (formData.id) {
-        // UPDATE existing record by ID
         const { error: updateError } = await supabase
           .from('blogs')
           .update(payload)
@@ -194,7 +249,6 @@ export default function ManageBlogPage() {
         if (updateError) throw updateError;
         setGlobalStatus({ state: 'success', message: `🎉 Successfully updated "${formData.title}"!` });
       } else {
-        // INSERT new record
         const { data, error: insertError } = await supabase
           .from('blogs')
           .insert([payload])
@@ -204,16 +258,12 @@ export default function ManageBlogPage() {
         setGlobalStatus({ state: 'success', message: '🎉 Blog post successfully published!' });
 
         if (data && data[0]) {
-          setFormData((prev) => ({ ...prev, id: data[0].id }));
+          setFormData((prev) => ({ ...prev, id: data[0].id, media_url: mediaUrl }));
           setComboboxSearchText(data[0].title);
         }
       }
 
       fetchBlogDropdown();
-      setTimeout(() => {
-        setGlobalStatus({ state: 'idle', message: '' });
-      }, 3000);
-
     } catch (err) {
       console.error('Blog save error details:', err);
       setGlobalStatus({ state: 'error', message: err.message || 'Failed to save blog post.' });
@@ -228,14 +278,13 @@ export default function ManageBlogPage() {
       description="Publish and manage official research articles, announcements, and network updates."
     >
       <main className="container py-xl">
-
         <header className="hero mb-lg">
           <h4 className="card-title">Add a Blog</h4>
         </header>
-        {/* Search & Sort Filter Card */}
+
         {/* Searchable Custom Combobox Selector Card */}
         <div className="card admin-select-card">
-          <label htmlFor="combobox_input" className="admin-select-label">
+          <label htmlFor="blog_combobox_input" className="admin-select-label">
             Search or Select Existing Blog Post to Edit:
           </label>
 
@@ -295,13 +344,6 @@ export default function ManageBlogPage() {
             )}
           </div>
         </div>
-
-        {/* Global Feedback Box */}
-        {globalStatus.message && (
-          <div className={`admin-status-box ${globalStatus.state}`}>
-            {globalStatus.message}
-          </div>
-        )}
 
         {/* Main Curation Form */}
         <form onSubmit={handleSubmit} className="card admin-form-card">
@@ -384,17 +426,46 @@ export default function ManageBlogPage() {
               </div>
 
               <div className="form-group">
-                <label className="admin-form-label">Upload Image / Banner (Supabase Bucket)</label>
+                <label className="admin-form-label">Upload Image / Banner (Max 3MB, JPEG/PNG/HEIC)</label>
                 <input
                   type="file"
-                  accept="image/*"
-                  onChange={(e) => setMediaFile(e.target.files[0])}
+                  accept="image/jpeg,image/png,image/heic,image/heif"
+                  onChange={handleFileChange}
                   className="admin-input-text"
                 />
-                {formData.media_url && !mediaFile && (
-                  <span className="admin-preview-info-url">
-                    Active Media: {formData.media_url}
-                  </span>
+
+                {/* Direct Image Verification Feedback */}
+                {mediaValidation.message && (
+                  <div className={`form-feedback ${mediaValidation.state}`}>
+                    {mediaValidation.message}
+                  </div>
+                )}
+
+                {/* Visual Media Thumbnail Card (Shows for existing post or staged file) */}
+                {(mediaPreviewUrl || (formData.media_url && !mediaFile)) && (
+                  <div className="admin-media-preview-card">
+                    <img
+                      src={mediaPreviewUrl || formData.media_url}
+                      alt="Media Thumbnail"
+                      className="admin-preview-thumbnail"
+                    />
+                    <div className="admin-preview-meta">
+                      <span className="admin-preview-label">
+                        {mediaPreviewUrl ? 'Selected File (Pending Save)' : 'Current Active Media'}
+                      </span>
+                      {formData.media_url && !mediaPreviewUrl && (
+                        <a
+                          href={formData.media_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="admin-preview-link"
+                          title={formData.media_url}
+                        >
+                          View Full Image ↗
+                        </a>
+                      )}
+                    </div>
+                  </div>
                 )}
               </div>
             </div>
@@ -456,7 +527,7 @@ export default function ManageBlogPage() {
           <div className="admin-action-bar">
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || mediaValidation.state === 'error'}
               className="btn-solid admin-btn-lg"
             >
               {loading ? 'Saving...' : formData.id ? 'Update Blog Post 🚀' : 'Publish Blog Post 🚀'}
@@ -470,6 +541,13 @@ export default function ManageBlogPage() {
               Clear / New Post
             </button>
           </div>
+
+          {/* Final Form Status Box rendered directly below the buttons */}
+          {globalStatus.message && (
+            <div className={`form-feedback ${globalStatus.state}`}>
+              {globalStatus.message}
+            </div>
+          )}
 
         </form>
       </main>
