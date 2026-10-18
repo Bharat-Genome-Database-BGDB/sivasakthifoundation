@@ -13,8 +13,5 @@ jobs:
         run: |
           curl -s -o /dev/null -w "%{http_code}" \
             -X GET "${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}/rest/v1/contact_submissions?select=id&limit=1" \
-            -H "apikey: ${{ secrets.NEXT_PUBLIC_SUPABASE }}" \
-            -H "Authorization: Bearer ${{ secrets.NEXT_PUBLIC_SUPABASE }}"
-
-
-            
+            -H "apikey: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}"
