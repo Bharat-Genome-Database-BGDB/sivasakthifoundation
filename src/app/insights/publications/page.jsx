@@ -51,15 +51,15 @@ export default function PublicationsDirectoryPage() {
 
   return (
     <Layout
-      title="Publications & Preprints"
-      description="Scientific papers, journal publications, and preprints from the Sivasakthi Science Foundation."
+      title="Publications"
+      description="Scientific papers, journal publications from the Sivasakthi Science Foundation."
     >
       <main className="container py-xl">
         <header className="hero mb-lg text-center">
           <span className="badge mb-md">Research Directory</span>
-          <h1 className="hero-title">Scientific Publications & Preprints</h1>
+          <h1 className="hero-title">Scientific Publications</h1>
           <p className="card-body margin-auto max-w-700">
-            Access peer-reviewed articles, genomic discoveries, and preprints authored and supported by the Sivasakthi Science Foundation.
+            Access peer-reviewed articles, genomic discoveries authored and supported by the Sivasakthi Science Foundation.
           </p>
         </header>
 
