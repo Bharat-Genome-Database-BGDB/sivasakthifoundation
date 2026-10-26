@@ -1,468 +1,316 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import { supabase } from '@db/supabaseClient';
 import Layout from '@components/Layout/Layout';
 import '@styles/main.css';
 
-const INITIAL_PUB_STATE = {
-  id: null,
-  title: '',
-  authors: '',
-  journal_or_venue: '',
-  publication_date: new Date().toISOString().split('T')[0],
-  doi: '',
-  external_url: '',
-  abstract: '',
-  category: 'Journal Article',
-  is_peer_reviewed: true,
-  is_published: true,
-  tagsInput: '',
-};
-
 export default function ManagePublicationsPage() {
-  const router = useRouter();
+  const [doiInput, setDoiInput] = useState('');
+  const [isFetchingMetadata, setIsFetchingMetadata] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [previewData, setPreviewData] = useState(null);
+  const [statusMessage, setStatusMessage] = useState({ state: 'idle', message: '' });
 
-  // Combobox & Existing Publications State
-  const [pubList, setPubList] = useState([]);
-  const [comboboxSearchText, setComboboxSearchText] = useState('');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
-
-  // Form & Status State
-  const [formData, setFormData] = useState(INITIAL_PUB_STATE);
-  const [loading, setLoading] = useState(false);
-  const [globalStatus, setGlobalStatus] = useState({ state: 'idle', message: '' });
+  // List of existing saved publications
+  const [publications, setPublications] = useState([]);
+  const [loadingList, setLoadingList] = useState(true);
 
   useEffect(() => {
-    fetchPublicationsDropdown();
-
-    const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setIsDropdownOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    fetchSavedPublications();
   }, []);
 
-  const fetchPublicationsDropdown = async () => {
+  const fetchSavedPublications = async () => {
     try {
-      const { data, error } = await supabase
-        .from('publications')
-        .select('id, title, doi')
-        .order('publication_date', { ascending: false });
-
-      if (error) throw error;
-      setPubList(data || []);
-    } catch (err) {
-      console.error('Error fetching publication list:', err.message);
-    }
-  };
-
-  const filteredPublications = pubList.filter((item) => {
-    const query = comboboxSearchText.toLowerCase();
-    const titleMatch = item.title?.toLowerCase().includes(query);
-    const doiMatch = item.doi?.toLowerCase().includes(query);
-    return titleMatch || doiMatch;
-  });
-
-  const handleSelectPubFromMenu = (pub) => {
-    setComboboxSearchText(pub.title);
-    setIsDropdownOpen(false);
-    loadPublicationData(pub.id);
-  };
-
-  const loadPublicationData = async (id) => {
-    setGlobalStatus({ state: 'idle', message: '' });
-
-    try {
+      setLoadingList(true);
       const { data, error } = await supabase
         .from('publications')
         .select('*')
-        .eq('id', id)
-        .single();
+        .order('created_at', { ascending: false });
 
       if (error) throw error;
-      if (data) {
-        setFormData({
-          id: data.id,
-          title: data.title || '',
-          authors: data.authors || '',
-          journal_or_venue: data.journal_or_venue || '',
-          publication_date: data.publication_date || '',
-          doi: data.doi || '',
-          external_url: data.external_url || '',
-          abstract: data.abstract || '',
-          category: data.category || 'Journal Article',
-          is_peer_reviewed: data.is_peer_reviewed ?? true,
-          is_published: data.is_published ?? true,
-          tagsInput: Array.isArray(data.tags) ? data.tags.join(', ') : '',
-        });
-      }
+      setPublications(data || []);
     } catch (err) {
-      console.error('Error fetching publication details:', err.message);
-      setGlobalStatus({ state: 'error', message: 'Failed to load publication details.' });
+      console.error('Error fetching publications:', err.message);
+    } finally {
+      setLoadingList(false);
     }
   };
 
-  const handleResetForm = () => {
-    setComboboxSearchText('');
-    setFormData(INITIAL_PUB_STATE);
-    setGlobalStatus({ state: 'idle', message: 'Form cleared. Ready to add a new publication.' });
+  // Helper to sanitize DOIs
+  const cleanDoiString = (raw) => {
+    return raw.trim().replace(/^https?:\/\/doi\.org\//i, '').replace(/^doi:\s*/i, '');
   };
 
-  const handleChange = (e) => {
-    const { id, value, type, checked } = e.target;
+  // 1. Fetch metadata directly from the official Crossref Registry
+  const handleFetchMetadata = async (e) => {
+    if (e) e.preventDefault();
 
-    setFormData((prev) => {
-      const updated = { ...prev, [id]: type === 'checkbox' ? checked : value };
+    const doi = cleanDoiString(doiInput);
+    if (!doi) {
+      setStatusMessage({ state: 'error', message: 'Please enter a valid DOI.' });
+      return;
+    }
 
-      // Auto-populate direct URL when raw DOI is pasted
-      if (id === 'doi' && value.trim()) {
-        const cleanDoi = value.trim().replace(/^https?:\/\/doi\.org\//i, '');
-        if (!prev.external_url || prev.external_url.includes('doi.org')) {
-          updated.external_url = `https://doi.org/${cleanDoi}`;
-        }
-      }
-
-      // Automatically uncheck peer review when preprint is chosen
-      if (id === 'category') {
-        if (value === 'Preprint') {
-          updated.is_peer_reviewed = false;
-        } else if (value === 'Journal Article') {
-          updated.is_peer_reviewed = true;
-        }
-      }
-
-      return updated;
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setGlobalStatus({ state: 'saving', message: 'Saving publication record...' });
+    setIsFetchingMetadata(true);
+    setStatusMessage({ state: 'idle', message: '' });
+    setPreviewData(null);
 
     try {
-      const tagsArray = formData.tagsInput
-        ? formData.tagsInput.split(',').map((tag) => tag.trim()).filter(Boolean)
-        : [];
-
-      const cleanDoi = formData.doi.trim().replace(/^https?:\/\/doi\.org\//i, '');
-      const externalUrl = formData.external_url.trim() || `https://doi.org/${cleanDoi}`;
-
-      const payload = {
-        title: formData.title,
-        authors: formData.authors,
-        journal_or_venue: formData.journal_or_venue,
-        publication_date: formData.publication_date,
-        doi: cleanDoi,
-        external_url: externalUrl,
-        abstract: formData.abstract,
-        category: formData.category,
-        is_peer_reviewed: formData.is_peer_reviewed,
-        is_published: formData.is_published,
-        tags: tagsArray,
-      };
-
-      if (formData.id) {
-        const { error: updateError } = await supabase
-          .from('publications')
-          .update(payload)
-          .eq('id', formData.id);
-
-        if (updateError) throw updateError;
-        setGlobalStatus({ state: 'success', message: `🎉 Successfully updated "${formData.title}"!` });
-      } else {
-        const { data, error: insertError } = await supabase
-          .from('publications')
-          .insert([payload])
-          .select();
-
-        if (insertError) throw insertError;
-        setGlobalStatus({ state: 'success', message: '🎉 Publication record saved successfully!' });
-
-        if (data && data[0]) {
-          setFormData((prev) => ({ ...prev, id: data[0].id }));
-          setComboboxSearchText(data[0].title);
-        }
+      const response = await fetch(`https://api.crossref.org/works/${encodeURIComponent(doi)}`);
+      
+      if (!response.ok) {
+        throw new Error(`DOI not found on Crossref (${response.status}). Please check the identifier.`);
       }
 
-      fetchPublicationsDropdown();
+      const json = await response.json();
+      const item = json.message;
+
+      // Extract title
+      const title = Array.isArray(item.title) ? item.title[0] : (item.title || 'Untitled Publication');
+
+      // Extract authors
+      let authors = 'SSF Research Team';
+      if (Array.isArray(item.author) && item.author.length > 0) {
+        authors = item.author
+          .map((a) => {
+            if (a.name) return a.name;
+            return [a.given, a.family].filter(Boolean).join(' ');
+          })
+          .filter(Boolean)
+          .join(', ');
+      }
+
+      // Extract venue / journal
+      let journal = 'Academic Repository';
+      if (Array.isArray(item['container-title']) && item['container-title'].length > 0) {
+        journal = item['container-title'][0];
+      } else if (item.institution && item.institution[0]?.name) {
+        journal = item.institution[0].name;
+      } else if (item.publisher) {
+        journal = item.publisher;
+      }
+
+      // Extract publication date / year
+      let pubDate = 'Recent';
+      if (item.published?.['date-parts']?.[0]) {
+        pubDate = item.published['date-parts'][0].join('-');
+      } else if (item.created?.['date-parts']?.[0]) {
+        pubDate = item.created['date-parts'][0].join('-');
+      }
+
+      const extracted = {
+        doi,
+        title,
+        authors,
+        journal_or_venue: journal,
+        publication_date: pubDate,
+        external_url: `https://doi.org/${doi}`,
+        is_published: true,
+      };
+
+      setPreviewData(extracted);
+      setStatusMessage({ state: 'success', message: '✓ Metadata retrieved from official publisher registry!' });
     } catch (err) {
-      console.error('Publication save error:', err);
-      setGlobalStatus({ state: 'error', message: err.message || 'Failed to save publication.' });
+      console.error('Crossref lookup error:', err);
+      setStatusMessage({ state: 'error', message: err.message || 'Failed to fetch DOI metadata.' });
     } finally {
-      setLoading(false);
+      setIsFetchingMetadata(false);
+    }
+  };
+
+  // 2. Save previewed publication to Supabase
+  const handleSavePublication = async () => {
+    if (!previewData) return;
+
+    setIsSaving(true);
+    setStatusMessage({ state: 'saving', message: 'Saving publication to database...' });
+
+    try {
+      const { error } = await supabase
+        .from('publications')
+        .upsert([previewData], { onConflict: 'doi' });
+
+      if (error) throw error;
+
+      setStatusMessage({ state: 'success', message: `🎉 Successfully saved "${previewData.title}"!` });
+      setPreviewData(null);
+      setDoiInput('');
+      fetchSavedPublications();
+    } catch (err) {
+      console.error('Save error:', err);
+      setStatusMessage({ state: 'error', message: err.message || 'Failed to save to database.' });
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  // 3. Delete publication
+  const handleDelete = async (id, title) => {
+    if (!confirm(`Are you sure you want to remove "${title}"?`)) return;
+
+    try {
+      const { error } = await supabase
+        .from('publications')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+      fetchSavedPublications();
+    } catch (err) {
+      console.error('Delete error:', err.message);
+      alert('Failed to delete: ' + err.message);
+    }
+  };
+
+  // 4. Toggle visibility
+  const handleTogglePublished = async (id, currentStatus) => {
+    try {
+      const { error } = await supabase
+        .from('publications')
+        .update({ is_published: !currentStatus })
+        .eq('id', id);
+
+      if (error) throw error;
+      fetchSavedPublications();
+    } catch (err) {
+      console.error('Toggle error:', err.message);
     }
   };
 
   return (
     <Layout
-      title={formData.id ? 'Edit Publication | Admin Portal' : 'Add Publication | Admin Portal'}
-      description="Register, catalog, and manage official scientific papers and preprints."
+      title="Manage Publications | Admin"
+      description="Register and manage scientific publications using persistent DOIs."
     >
       <main className="container py-xl">
         <header className="hero mb-lg">
-          <h4 className="card-title">Manage Scientific Publications</h4>
+          <h1 className="hero-title">Scientific Publications Manager</h1>
+          <p className="card-body">
+            Paste a DOI to auto-fetch title, author roster, journal venue, and year directly from the Crossref index.
+          </p>
         </header>
 
-        {/* Searchable Combobox Selector */}
-        <div className="card admin-select-card">
-          <label htmlFor="pub_combobox_input" className="admin-select-label">
-            Search or Select Existing Publication to Edit:
-          </label>
-
-          <div className="admin-combobox-wrap" ref={dropdownRef}>
-            <div className="admin-combobox-input-group">
+        {/* --- DOI Intake Form --- */}
+        <section className="card p-xl mb-lg">
+          <h2 className="card-title mb-md">Import Publication via DOI</h2>
+          
+          <form onSubmit={handleFetchMetadata} className="admin-grid-taxonomy mb-md">
+            <div className="form-group">
+              <label htmlFor="doi_input" className="admin-form-label">
+                Digital Object Identifier (DOI) *
+              </label>
               <input
-                id="pub_combobox_input"
+                id="doi_input"
                 type="text"
-                className="admin-combobox-input"
-                placeholder="🔍 Click arrow on right or type to search papers by title or DOI..."
-                value={comboboxSearchText}
-                onFocus={() => setIsDropdownOpen(true)}
-                onChange={(e) => {
-                  setComboboxSearchText(e.target.value);
-                  setIsDropdownOpen(true);
-                }}
+                required
+                className="admin-input-text"
+                placeholder="e.g. 10.3390/ijms27209188 or https://doi.org/10.3390/ijms27209188"
+                value={doiInput}
+                onChange={(e) => setDoiInput(e.target.value)}
               />
-              <span
-                className="admin-combobox-arrow"
-                onClick={() => setIsDropdownOpen((prev) => !prev)}
+            </div>
+
+            <div className="admin-action-bar">
+              <button
+                type="submit"
+                disabled={isFetchingMetadata || !doiInput.trim()}
+                className="btn-solid"
               >
-                ▼
-              </span>
-
-              {comboboxSearchText && (
-                <button
-                  type="button"
-                  onClick={handleResetForm}
-                  className="admin-combobox-clear"
-                  title="Clear selection to create a new publication entry"
-                >
-                  ✕ Clear / New
-                </button>
-              )}
+                {isFetchingMetadata ? 'Fetching Metadata...' : '🔍 Fetch DOI Metadata'}
+              </button>
             </div>
+          </form>
 
-            {isDropdownOpen && (
-              <ul className="admin-combobox-dropdown">
-                {filteredPublications.length > 0 ? (
-                  filteredPublications.map((item) => (
-                    <li
-                      key={item.id}
-                      className="admin-combobox-item"
-                      onClick={() => handleSelectPubFromMenu(item)}
-                    >
-                      <span className="admin-combobox-item-name">{item.title}</span>
-                      <span className="admin-combobox-item-sci">{item.doi}</span>
-                    </li>
-                  ))
-                ) : (
-                  <li className="admin-combobox-no-results">
-                    No matching publications found. (Drafting a new entry below)
-                  </li>
-                )}
-              </ul>
-            )}
-          </div>
-        </div>
-
-        {/* Main Form */}
-        <form onSubmit={handleSubmit} className="card admin-form-card">
-          {/* SECTION 1: CITATION IDENTIFICATION */}
-          <div>
-            <h3 className="admin-section-title">
-              1. Title & Authorship
-            </h3>
-
-            <div className="form-group">
-              <label htmlFor="title" className="admin-form-label">Full Publication Title *</label>
-              <input
-                id="title"
-                type="text"
-                required
-                className="admin-input-text"
-                placeholder="e.g., Comparative analysis of whole genomes reveals..."
-                value={formData.title}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="authors" className="admin-form-label">Authors List * (Full Names, comma separated)</label>
-              <input
-                id="authors"
-                type="text"
-                required
-                className="admin-input-text"
-                placeholder="e.g., A. Sharma, R. Kumar, J. Doe"
-                value={formData.authors}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          {/* SECTION 2: VENUE & IDENTIFIERS */}
-          <div>
-            <h3 className="admin-section-title">
-              2. Journal / Venue & Persistent Identifiers
-            </h3>
-
-            <div className="admin-grid-3">
-              <div className="form-group">
-                <label htmlFor="journal_or_venue" className="admin-form-label">Journal / Archive *</label>
-                <input
-                  id="journal_or_venue"
-                  type="text"
-                  required
-                  className="admin-input-text"
-                  placeholder="e.g., International Journal of Molecular Sciences, bioRxiv"
-                  value={formData.journal_or_venue}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="category" className="admin-form-label">Publication Classification</label>
-                <select
-                  id="category"
-                  className="admin-input-text"
-                  value={formData.category}
-                  onChange={handleChange}
-                >
-                  <option value="Journal Article">Peer-Reviewed Journal Article</option>
-                  <option value="Preprint">Preprint (bioRxiv / OSF / arXiv)</option>
-                  <option value="Conference">Conference Proceeding</option>
-                  <option value="Book Chapter">Book Chapter</option>
-                </select>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="publication_date" className="admin-form-label">Publication Date *</label>
-                <input
-                  id="publication_date"
-                  type="date"
-                  required
-                  className="admin-input-text"
-                  value={formData.publication_date}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-
-            <div className="admin-grid-taxonomy">
-              <div className="form-group">
-                <label htmlFor="doi" className="admin-form-label">Digital Object Identifier (DOI) *</label>
-                <input
-                  id="doi"
-                  type="text"
-                  required
-                  className="admin-input-text"
-                  placeholder="e.g., 10.3390/ijms27209188"
-                  value={formData.doi}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="external_url" className="admin-form-label">Direct Link (Auto-derived from DOI or custom URL)</label>
-                <input
-                  id="external_url"
-                  type="url"
-                  className="admin-input-text"
-                  placeholder="https://doi.org/10.3390/ijms27209188"
-                  value={formData.external_url}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* SECTION 3: ABSTRACT & TOPICS */}
-          <div>
-            <h3 className="admin-section-title">
-              3. Abstract & Topics
-            </h3>
-
-            <div className="form-group">
-              <label htmlFor="tagsInput" className="admin-form-label">Keywords / Tags (Comma separated)</label>
-              <input
-                id="tagsInput"
-                type="text"
-                className="admin-input-text"
-                placeholder="Genomics, Metagenomics, Computational Biology, Oncology"
-                value={formData.tagsInput}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="abstract" className="admin-form-label">Abstract / Summary</label>
-              <textarea
-                id="abstract"
-                rows="6"
-                className="admin-input-text"
-                placeholder="Paste the official abstract here..."
-                value={formData.abstract}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          {/* SECTION 4: TOGGLES */}
-          <div className="admin-checkbox-group">
-            <label className="admin-checkbox-label">
-              <input
-                id="is_peer_reviewed"
-                type="checkbox"
-                checked={formData.is_peer_reviewed}
-                onChange={handleChange}
-              />
-              <span>Mark as Peer-Reviewed Research</span>
-            </label>
-          </div>
-
-          <div className="admin-checkbox-group">
-            <label className="admin-checkbox-label">
-              <input
-                id="is_published"
-                type="checkbox"
-                checked={formData.is_published}
-                onChange={handleChange}
-              />
-              <span>Display on Public Publications Directory</span>
-            </label>
-          </div>
-
-          {/* ACTION BUTTONS & FEEDBACK */}
-          <div className="admin-action-bar">
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn-solid admin-btn-lg"
-            >
-              {loading ? 'Saving...' : formData.id ? 'Update Publication 🚀' : 'Add Publication 🚀'}
-            </button>
-
-            <button
-              type="button"
-              onClick={handleResetForm}
-              className="btn-outline admin-btn-cancel"
-            >
-              Clear / New Publication
-            </button>
-          </div>
-
-          {globalStatus.message && (
-            <div className={`form-feedback ${globalStatus.state}`}>
-              {globalStatus.message}
+          {statusMessage.message && (
+            <div className={`form-feedback ${statusMessage.state} mb-md`}>
+              {statusMessage.message}
             </div>
           )}
-        </form>
+
+          {/* --- Live Auto-Fetched Preview Card --- */}
+          {previewData && (
+            <div className="card admin-select-card p-xl">
+              <span className="badge mb-sm">Official Registry Preview</span>
+              <h3 className="card-title mb-sm">{previewData.title}</h3>
+              <p className="catalog-sci-name mb-sm"><strong>Authors:</strong> {previewData.authors}</p>
+              <p className="catalog-family-meta mb-sm"><strong>Venue:</strong> {previewData.journal_or_venue}</p>
+              <p className="timestamp mb-md"><strong>Published / Indexed Date:</strong> {previewData.publication_date}</p>
+              
+              <div className="admin-action-bar">
+                <button
+                  type="button"
+                  disabled={isSaving}
+                  onClick={handleSavePublication}
+                  className="btn-solid"
+                >
+                  {isSaving ? 'Saving...' : '💾 Confirm & Save to Catalog'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPreviewData(null)}
+                  className="btn-outline"
+                >
+                  ✕ Discard Preview
+                </button>
+              </div>
+            </div>
+          )}
+        </section>
+
+        {/* --- List of Already Saved Publications --- */}
+        <section className="card p-xl">
+          <div className="catalog-card-header mb-md">
+            <h2 className="card-title">Existing Catalog ({publications.length})</h2>
+          </div>
+
+          {loadingList ? (
+            <div className="catalog-status-msg text-center">Loading publications...</div>
+          ) : publications.length === 0 ? (
+            <div className="catalog-empty-card text-center">No publications added yet.</div>
+          ) : (
+            <div className="grid grid-cols-1 gap-md">
+              {publications.map((pub) => (
+                <div key={pub.id} className="card p-md admin-select-card">
+                  <div className="catalog-card-header mb-xs">
+                    <span className="badge">{pub.journal_or_venue}</span>
+                    <span className="timestamp">{pub.publication_date}</span>
+                  </div>
+
+                  <h3 className="card-title mb-xs">{pub.title}</h3>
+                  <p className="catalog-sci-name mb-sm">{pub.authors}</p>
+
+                  <div className="admin-action-bar">
+                    <a
+                      href={pub.external_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-outline admin-btn-sm"
+                    >
+                      DOI: {pub.doi} ↗
+                    </a>
+
+                    <button
+                      type="button"
+                      onClick={() => handleTogglePublished(pub.id, pub.is_published)}
+                      className="btn-outline admin-btn-sm"
+                    >
+                      {pub.is_published ? '✓ Public' : 'Hidden'}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(pub.id, pub.title)}
+                      className="btn-outline admin-btn-sm"
+                    >
+                      🗑 Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
       </main>
     </Layout>
   );

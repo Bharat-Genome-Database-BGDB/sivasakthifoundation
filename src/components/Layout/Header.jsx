@@ -72,15 +72,15 @@ const Header = () => {
       dropdown: [{ label: "Projects & Initiatives", to: "/projects/initiatives" }]
     },
     {
-      label: "Publications",
+      label: "Insights",
       to: "#",
       dropdown: [
-        { label: "Publications", to: "/publications" },
-        { label: "Blogs", to: "/publications/blogs" },
+        { label: "Scientific Publications", to: "/insights/publications" },
+        { label: "Blog & Perspectives", to: "/insights/blogs" },
       ]
     },
-    
-    
+
+
     { label: "Contact Us", to: "/contact" },
   ];
 
