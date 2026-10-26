@@ -8,6 +8,7 @@ import '@styles/main.css';
 export default function PublicationsDirectoryPage() {
   const [publications, setPublications] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedTag, setSelectedTag] = useState('');
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -36,12 +37,16 @@ export default function PublicationsDirectoryPage() {
 
   const filteredPublications = publications.filter((pub) => {
     const query = searchTerm.toLowerCase();
-    return (
+    const matchesSearch =
       (pub.title?.toLowerCase() || '').includes(query) ||
       (pub.authors?.toLowerCase() || '').includes(query) ||
       (pub.journal_or_venue?.toLowerCase() || '').includes(query) ||
-      (pub.doi?.toLowerCase() || '').includes(query)
-    );
+      (pub.doi?.toLowerCase() || '').includes(query) ||
+      (pub.tags?.some((t) => t.toLowerCase().includes(query)) ?? false);
+
+    const matchesTag = !selectedTag || (pub.tags && pub.tags.includes(selectedTag));
+
+    return matchesSearch && matchesTag;
   });
 
   return (
@@ -50,7 +55,6 @@ export default function PublicationsDirectoryPage() {
       description="Scientific papers, journal publications, and preprints from the Sivasakthi Science Foundation."
     >
       <main className="container py-xl">
-        {/* Header */}
         <header className="hero mb-lg text-center">
           <span className="badge mb-md">Research Directory</span>
           <h1 className="hero-title">Scientific Publications & Preprints</h1>
@@ -59,7 +63,6 @@ export default function PublicationsDirectoryPage() {
           </p>
         </header>
 
-        {/* Live Filter Card */}
         <div className="card catalog-search-wrap mb-lg">
           <div className="form-group">
             <label htmlFor="pub_search_bar" className="admin-form-label">
@@ -69,14 +72,26 @@ export default function PublicationsDirectoryPage() {
               id="pub_search_bar"
               type="text"
               className="admin-input-text"
-              placeholder="🔍 Search by study title, author name, journal, or DOI (e.g. 10.3390)..."
+              placeholder="🔍 Search by study title, author, journal, DOI, or tag..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
+
+          {selectedTag && (
+            <div className="admin-action-bar pt-sm">
+              <span className="badge">Active Tag Filter: #{selectedTag}</span>
+              <button
+                type="button"
+                onClick={() => setSelectedTag('')}
+                className="btn-outline admin-btn-sm"
+              >
+                ✕ Clear Tag Filter
+              </button>
+            </div>
+          )}
         </div>
 
-        {/* Loading & Error States */}
         {loading && (
           <div className="catalog-status-msg text-center">
             ⏳ Loading publications catalog...
@@ -89,15 +104,13 @@ export default function PublicationsDirectoryPage() {
           </div>
         )}
 
-        {/* Empty Search State */}
         {!loading && !errorMessage && filteredPublications.length === 0 && (
           <div className="card catalog-empty-card text-center">
             <h2 className="card-title">No matching publications found.</h2>
-            <p className="card-body">Try clearing your search query to see all papers.</p>
+            <p className="card-body">Try clearing your search query or tag filter.</p>
           </div>
         )}
 
-        {/* Publications Cards Grid */}
         {!loading && filteredPublications.length > 0 && (
           <div className="grid grid-cols-1 gap-lg">
             {filteredPublications.map((pub) => (
@@ -115,9 +128,26 @@ export default function PublicationsDirectoryPage() {
                   {pub.title}
                 </h2>
 
-                <p className="catalog-sci-name mb-md">
+                <p className="catalog-sci-name mb-sm">
                   {pub.authors}
                 </p>
+
+                {/* Render Tag Pills */}
+                {pub.tags && pub.tags.length > 0 && (
+                  <div className="blog-tags-container mb-md">
+                    {pub.tags.map((tag, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => setSelectedTag(tag)}
+                        className="badge"
+                        title={`Filter by #${tag}`}
+                      >
+                        #{tag}
+                      </button>
+                    ))}
+                  </div>
+                )}
 
                 <div className="admin-action-bar mt-auto pt-sm">
                   <a

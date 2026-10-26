@@ -5,14 +5,26 @@ import { supabase } from '@db/supabaseClient';
 import Layout from '@components/Layout/Layout';
 import '@styles/main.css';
 
+// Keyword rules for automatic tag inference
+const TAG_RULES = [
+  { test: /genom|assembly|sequenc|synten/i, tag: 'Genomics' },
+  { test: /microbio|gut|metagenom|16s/i, tag: 'Metagenomics' },
+  { test: /antimicrobial|amr|resist/i, tag: 'AMR' },
+  { test: /deep learning|machine learning|transformer|neural|ai/i, tag: 'AI & Computational Biology' },
+  { test: /plant|ficus|flora|botan/i, tag: 'Plant Biology' },
+  { test: /pathogen|infect|host/i, tag: 'Infectious Disease' },
+  { test: /fair|repository|database|data standard|open access/i, tag: 'Open Science' },
+  { test: /splice|annotation|pipeline/i, tag: 'Bioinformatics' },
+];
+
 export default function ManagePublicationsPage() {
   const [doiInput, setDoiInput] = useState('');
   const [isFetchingMetadata, setIsFetchingMetadata] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [previewData, setPreviewData] = useState(null);
+  const [tagsInput, setTagsInput] = useState('');
   const [statusMessage, setStatusMessage] = useState({ state: 'idle', message: '' });
 
-  // List of existing saved publications
   const [publications, setPublications] = useState([]);
   const [loadingList, setLoadingList] = useState(true);
 
@@ -37,12 +49,29 @@ export default function ManagePublicationsPage() {
     }
   };
 
-  // Helper to sanitize DOIs
   const cleanDoiString = (raw) => {
     return raw.trim().replace(/^https?:\/\/doi\.org\//i, '').replace(/^doi:\s*/i, '');
   };
 
-  // 1. Fetch metadata directly from the official Crossref Registry
+  const extractTags = (title, venue, crossrefSubjects = []) => {
+    const combinedText = `${title} ${venue} ${crossrefSubjects.join(' ')}`;
+    const matchedTags = new Set();
+
+    TAG_RULES.forEach((rule) => {
+      if (rule.test.test(combinedText)) {
+        matchedTags.add(rule.tag);
+      }
+    });
+
+    // Ensure at least two standard tags exist
+    if (matchedTags.size === 0) {
+      matchedTags.add('Research');
+      matchedTags.add('Open Science');
+    }
+
+    return Array.from(matchedTags);
+  };
+
   const handleFetchMetadata = async (e) => {
     if (e) e.preventDefault();
 
@@ -60,16 +89,14 @@ export default function ManagePublicationsPage() {
       const response = await fetch(`https://api.crossref.org/works/${encodeURIComponent(doi)}`);
       
       if (!response.ok) {
-        throw new Error(`DOI not found on Crossref (${response.status}). Please check the identifier.`);
+        throw new Error(`DOI not found on Crossref (${response.status}).`);
       }
 
       const json = await response.json();
       const item = json.message;
 
-      // Extract title
       const title = Array.isArray(item.title) ? item.title[0] : (item.title || 'Untitled Publication');
 
-      // Extract authors
       let authors = 'SSF Research Team';
       if (Array.isArray(item.author) && item.author.length > 0) {
         authors = item.author
@@ -81,7 +108,6 @@ export default function ManagePublicationsPage() {
           .join(', ');
       }
 
-      // Extract venue / journal
       let journal = 'Academic Repository';
       if (Array.isArray(item['container-title']) && item['container-title'].length > 0) {
         journal = item['container-title'][0];
@@ -91,13 +117,15 @@ export default function ManagePublicationsPage() {
         journal = item.publisher;
       }
 
-      // Extract publication date / year
       let pubDate = 'Recent';
       if (item.published?.['date-parts']?.[0]) {
         pubDate = item.published['date-parts'][0].join('-');
       } else if (item.created?.['date-parts']?.[0]) {
         pubDate = item.created['date-parts'][0].join('-');
       }
+
+      // Automatically infer tags
+      const autoTags = extractTags(title, journal, item.subject || []);
 
       const extracted = {
         doi,
@@ -106,11 +134,13 @@ export default function ManagePublicationsPage() {
         journal_or_venue: journal,
         publication_date: pubDate,
         external_url: `https://doi.org/${doi}`,
+        tags: autoTags,
         is_published: true,
       };
 
       setPreviewData(extracted);
-      setStatusMessage({ state: 'success', message: '✓ Metadata retrieved from official publisher registry!' });
+      setTagsInput(autoTags.join(', '));
+      setStatusMessage({ state: 'success', message: '✓ Metadata and suggested tags retrieved!' });
     } catch (err) {
       console.error('Crossref lookup error:', err);
       setStatusMessage({ state: 'error', message: err.message || 'Failed to fetch DOI metadata.' });
@@ -119,7 +149,6 @@ export default function ManagePublicationsPage() {
     }
   };
 
-  // 2. Save previewed publication to Supabase
   const handleSavePublication = async () => {
     if (!previewData) return;
 
@@ -127,15 +156,25 @@ export default function ManagePublicationsPage() {
     setStatusMessage({ state: 'saving', message: 'Saving publication to database...' });
 
     try {
+      const finalTags = tagsInput
+        ? tagsInput.split(',').map((t) => t.trim()).filter(Boolean)
+        : previewData.tags;
+
+      const payload = {
+        ...previewData,
+        tags: finalTags,
+      };
+
       const { error } = await supabase
         .from('publications')
-        .upsert([previewData], { onConflict: 'doi' });
+        .upsert([payload], { onConflict: 'doi' });
 
       if (error) throw error;
 
       setStatusMessage({ state: 'success', message: `🎉 Successfully saved "${previewData.title}"!` });
       setPreviewData(null);
       setDoiInput('');
+      setTagsInput('');
       fetchSavedPublications();
     } catch (err) {
       console.error('Save error:', err);
@@ -145,25 +184,18 @@ export default function ManagePublicationsPage() {
     }
   };
 
-  // 3. Delete publication
   const handleDelete = async (id, title) => {
     if (!confirm(`Are you sure you want to remove "${title}"?`)) return;
 
     try {
-      const { error } = await supabase
-        .from('publications')
-        .delete()
-        .eq('id', id);
-
+      const { error } = await supabase.from('publications').delete().eq('id', id);
       if (error) throw error;
       fetchSavedPublications();
     } catch (err) {
       console.error('Delete error:', err.message);
-      alert('Failed to delete: ' + err.message);
     }
   };
 
-  // 4. Toggle visibility
   const handleTogglePublished = async (id, currentStatus) => {
     try {
       const { error } = await supabase
@@ -181,17 +213,16 @@ export default function ManagePublicationsPage() {
   return (
     <Layout
       title="Manage Publications | Admin"
-      description="Register and manage scientific publications using persistent DOIs."
+      description="Register and manage scientific publications with automated tag inference."
     >
       <main className="container py-xl">
         <header className="hero mb-lg">
           <h1 className="hero-title">Scientific Publications Manager</h1>
           <p className="card-body">
-            Paste a DOI to auto-fetch title, author roster, journal venue, and year directly from the Crossref index.
+            Paste a DOI to auto-fetch official metadata and generate subject tags.
           </p>
         </header>
 
-        {/* --- DOI Intake Form --- */}
         <section className="card p-xl mb-lg">
           <h2 className="card-title mb-md">Import Publication via DOI</h2>
           
@@ -205,7 +236,7 @@ export default function ManagePublicationsPage() {
                 type="text"
                 required
                 className="admin-input-text"
-                placeholder="e.g. 10.3390/ijms27209188 or https://doi.org/10.3390/ijms27209188"
+                placeholder="e.g. 10.3390/ijms27209188"
                 value={doiInput}
                 onChange={(e) => setDoiInput(e.target.value)}
               />
@@ -217,7 +248,7 @@ export default function ManagePublicationsPage() {
                 disabled={isFetchingMetadata || !doiInput.trim()}
                 className="btn-solid"
               >
-                {isFetchingMetadata ? 'Fetching Metadata...' : '🔍 Fetch DOI Metadata'}
+                {isFetchingMetadata ? 'Fetching Metadata...' : '🔍 Fetch Metadata & Tags'}
               </button>
             </div>
           </form>
@@ -228,15 +259,29 @@ export default function ManagePublicationsPage() {
             </div>
           )}
 
-          {/* --- Live Auto-Fetched Preview Card --- */}
           {previewData && (
             <div className="card admin-select-card p-xl">
               <span className="badge mb-sm">Official Registry Preview</span>
               <h3 className="card-title mb-sm">{previewData.title}</h3>
               <p className="catalog-sci-name mb-sm"><strong>Authors:</strong> {previewData.authors}</p>
               <p className="catalog-family-meta mb-sm"><strong>Venue:</strong> {previewData.journal_or_venue}</p>
-              <p className="timestamp mb-md"><strong>Published / Indexed Date:</strong> {previewData.publication_date}</p>
-              
+              <p className="timestamp mb-md"><strong>Published Date:</strong> {previewData.publication_date}</p>
+
+              {/* Editable Tags Field */}
+              <div className="form-group mb-md">
+                <label htmlFor="tags_editor" className="admin-form-label">
+                  Publication Tags (Auto-generated, comma separated):
+                </label>
+                <input
+                  id="tags_editor"
+                  type="text"
+                  className="admin-input-text"
+                  value={tagsInput}
+                  onChange={(e) => setTagsInput(e.target.value)}
+                  placeholder="Genomics, Metagenomics, Plant Biology"
+                />
+              </div>
+
               <div className="admin-action-bar">
                 <button
                   type="button"
@@ -258,7 +303,6 @@ export default function ManagePublicationsPage() {
           )}
         </section>
 
-        {/* --- List of Already Saved Publications --- */}
         <section className="card p-xl">
           <div className="catalog-card-header mb-md">
             <h2 className="card-title">Existing Catalog ({publications.length})</h2>
@@ -280,6 +324,14 @@ export default function ManagePublicationsPage() {
                   <h3 className="card-title mb-xs">{pub.title}</h3>
                   <p className="catalog-sci-name mb-sm">{pub.authors}</p>
 
+                  {pub.tags && pub.tags.length > 0 && (
+                    <div className="blog-tags-container mb-sm">
+                      {pub.tags.map((t, idx) => (
+                        <span key={idx} className="badge">#{t}</span>
+                      ))}
+                    </div>
+                  )}
+
                   <div className="admin-action-bar">
                     <a
                       href={pub.external_url}
@@ -289,7 +341,6 @@ export default function ManagePublicationsPage() {
                     >
                       DOI: {pub.doi} ↗
                     </a>
-
                     <button
                       type="button"
                       onClick={() => handleTogglePublished(pub.id, pub.is_published)}
@@ -297,7 +348,6 @@ export default function ManagePublicationsPage() {
                     >
                       {pub.is_published ? '✓ Public' : 'Hidden'}
                     </button>
-
                     <button
                       type="button"
                       onClick={() => handleDelete(pub.id, pub.title)}
