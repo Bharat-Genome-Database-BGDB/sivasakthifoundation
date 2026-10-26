@@ -8,11 +8,11 @@ export default function HomePage() {
   return (
     <Layout title="Home" description="Advancing field research, public training, and computational genomics platforms.">
       <main className="container">
-        
+
         {/* 1. Hero Section: Uses hero.css components */}
         <section className="hero">
           <div className="hero-content">
-            <h1 className="hero-title">Advancing Scientific Research, Specialized Training & Education</h1>
+            <h1 className="hero-title">Code to Care: Sustaining Heritage, Health, and Scholarship</h1>
             <p className="hero-tagline">
               Bridging high-throughput genomics with modern computational deep learning systems to serve community welfare and drive open-access scientific discovery.
             </p>
@@ -30,7 +30,7 @@ export default function HomePage() {
         {/* 3. Platforms Grid: Uses layout.css (.grid) + cards.css (.card) */}
         <section className="verticals-wrapper">
           <div className="grid grid-3"> {/* Updated to use standard grid system */}
-            
+
             <div className="card">
               <div className="card-icon"><i className="fas fa-dna"></i></div>
               <h3 className="card-title">Genomics & BioInfo</h3>
