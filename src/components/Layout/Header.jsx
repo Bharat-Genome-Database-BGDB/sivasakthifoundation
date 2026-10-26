@@ -71,7 +71,16 @@ const Header = () => {
       to: "#",
       dropdown: [{ label: "Projects & Initiatives", to: "/projects/initiatives" }]
     },
-    { label: "Blogs", to: "/blogs" },
+    {
+      label: "Publications",
+      to: "#",
+      dropdown: [
+        { label: "Publications", to: "/publications" },
+        { label: "Blogs", to: "/publications/blogs" },
+      ]
+    },
+    
+    
     { label: "Contact Us", to: "/contact" },
   ];
 
@@ -81,7 +90,8 @@ const Header = () => {
     to: "#",
     dropdown: [
       { label: "Message Dashboard", to: "/admin/dashboard" },
-      { label: "Create a Blog", to: "/admin/create-blog" }
+      { label: "Create a Blog", to: "/admin/create-blog" },
+      { label: "Manage Publications", to: "/admin/manage-publications" }
     ]
   });
 
