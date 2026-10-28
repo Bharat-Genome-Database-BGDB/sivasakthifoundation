@@ -9,7 +9,7 @@ export default function InitiativesPage() {
     {
       badge: "Track 01",
       title: "BioHeritage",
-      link: "/blogs/decoding-india-s-biodiversity-safeguarding-our-living-heritage-for-future-generations",
+      link: "/insights/blogs/decoding-india-s-biodiversity-safeguarding-our-living-heritage-for-future-generations",
       bio: "Dedicated to the genomic preservation, characterization, and cataloging of native and endemic biodiversity across the Indian subcontinent. Through open-access multi-omics frameworks, automated annotation pipelines, and computational databases, the program safeguards biological heritage to empower evolutionary research and targeted conservation.",
       items: [
         "Biodiversity Genomics",
