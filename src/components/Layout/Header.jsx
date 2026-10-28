@@ -67,9 +67,9 @@ const Header = () => {
       ]
     },
     {
-      label: "Projects",
+      label: "Programs",
       to: "#",
-      dropdown: [{ label: "Projects & Initiatives", to: "/projects/initiatives" }]
+      dropdown: [{ label: "Programs & Initiatives", to: "/programs/initiatives" }]
     },
     {
       label: "Insights",

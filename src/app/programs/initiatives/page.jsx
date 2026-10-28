@@ -1,4 +1,4 @@
-// src/app/projects/initiatives/page.jsx
+// src/app/programs/initiatives/page.jsx
 'use client';
 import Layout from "@layout/Layout";
 import Link from "next/link";
