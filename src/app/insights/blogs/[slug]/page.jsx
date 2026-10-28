@@ -78,7 +78,7 @@ export default function SingleBlogPage() {
           <p className="hero-tagline">
             The article you are looking for might have been moved or is no longer published.
           </p>
-          <button onClick={() => router.push('/blogs')} className="btn-solid">
+          <button onClick={() => router.push('/insights/blogs')} className="btn-solid">
             ← Back to All Articles
           </button>
         </header>
@@ -93,7 +93,7 @@ export default function SingleBlogPage() {
 
         {/* Navigation Breadcrumb */}
         <div className="blog-breadcrumb-row">
-          <Link href="/blog" className="blog-back-link">
+          <Link href="/insights/blogs" className="blog-back-link">
             ← Return to Blog Directory
           </Link>
         </div>
@@ -154,7 +154,7 @@ export default function SingleBlogPage() {
               <h2 className="blog-rotator-title">
                 Explore Other Articles
               </h2>
-              <Link href="/blogs" className="blog-back-link">
+              <Link href="/insights/blogs" className="blog-back-link">
                 View All →
               </Link>
             </div>
