@@ -11,3 +11,4 @@ node_modules/*
 .next/server/app-paths-manifest.json
 .next/cache/webpack/client-development/0.pack.gz
 .next/cache/webpack/client-development/3.pack.gz
+.vscode
