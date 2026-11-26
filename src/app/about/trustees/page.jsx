@@ -20,12 +20,12 @@ export default function TrusteesPage() {
       bio: "Dr. Rajkumari Kylas brings a profound legacy of public health leadership and medical governance to the Sivasakthi Science Foundation. A former anesthesiologist, Dr. Kylas transitioned into high-impact public service, notably serving as the Director of Health Services (DHS) for the State of Kerala and leading the Public Health Laboratory in Trivandrum. Following her distinguished tenure in government, she further advanced clinical infrastructure as the Director of the Blood Bank at the Amrita Institute of Medical Sciences (AIMS), Kochi. As an SSF Trustee, Dr. Kylas leverages her deep domain expertise in public health architecture, laboratory operations, and translational research to steer our strategic initiatives and healthcare collaborations."
       // "Dr. Rajkumari Kylas brings an extraordinary legacy of public health leadership, medical expertise, and institutional governance to the Sivasakthi Science Foundation. She began her distinguished medical career as an anesthesiologist before pivoting into critical frontiers of medical science, including Vaccine Research and Development and leading the Public Health Laboratory in Trivandrum. Her exceptional administrative and clinical acumen ultimately led to her appointment as the Director of Health Services (DHS) for the State of Kerala, from which she retired after years of dedicated public service. Following her retirement from the government sector, Dr. Kylas continued to advance healthcare infrastructure by serving as the Director of the Blood Bank at Amrita Institute of Medical Sciences (AIMS), Kochi. As a Trustee of SSF, her deep domain expertise in public health architectures, laboratory operations, and translational research helps steer the foundation’s open-science initiatives, public health collaborations, and strategic research frameworks."
     },
-    // {
-    //   name: "Mrs. Sridevi (Srilu) Balla",
-    //   role: "Trustee",
-    //   initials: "SB",
-    //   bio: "Mrs. Sridevi (Srilu) Balla is a seasoned Quality Engineering and Product Management professional with two and a half decades of experience in delivering complex technological solutions. At SSF, Sridevi serves as a Trustee, where she is instrumental in shaping the foundation’s structural delivery, platform roadmap integrity, and technical governance. Her expertise in bridging the gap between rigorous engineering standards and user-centric product strategy ensures that SSF’s technological pipelines are not only robust but scalable, effectively supporting our mission to drive global impact in science and research."
-    // },
+    {
+      name: "Mrs. Sridevi (Srilu) Balla",
+      role: "Trustee",
+      initials: "SB",
+      bio: "Mrs. Sridevi (Srilu) Balla is a seasoned Quality Engineering and Product Management professional with two and a half decades of experience in delivering complex technological solutions. At SSF, Sridevi serves as a Trustee, where she is instrumental in shaping the foundation’s structural delivery, platform roadmap integrity, and technical governance. Her expertise in bridging the gap between rigorous engineering standards and user-centric product strategy ensures that SSF’s technological pipelines are not only robust but scalable, effectively supporting our mission to drive global impact in science and research."
+    },
     {
       name: "Mrs. A Ramya Nandhini",
       role: "Trustee",
